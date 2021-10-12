@@ -3,11 +3,8 @@ import vue from '@vitejs/plugin-vue'
 import legacy from '@vitejs/plugin-legacy'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import viteSvgIcons from 'vite-plugin-svg-icons'
-//mock
-import { viteMockServe } from 'vite-plugin-mock'
-import setting from './src/settings'
-const prodMock = setting.openProdMock
-export default ({ command }) => {
+
+export default () => {
   return {
     base: './',
     define: {
@@ -42,18 +39,6 @@ export default ({ command }) => {
         iconDirs: [path.resolve(process.cwd(), 'src/icons/common'), path.resolve(process.cwd(), 'src/icons/nav-bar')],
         // appoint svg icon using mode
         symbolId: 'icon-[dir]-[name]'
-      }),
-      //https://github.com/anncwb/vite-plugin-mock/blob/HEAD/README.zh_CN.md
-      viteMockServe({
-        supportTs: true,
-        mockPath: 'mock',
-        localEnabled: command === 'serve',
-        prodEnabled: prodMock,
-        injectCode: `
-          import { setupProdMockServer } from './mockProdServer';
-          setupProdMockServer();
-        `,
-        logger: true
       })
     ],
     build: {

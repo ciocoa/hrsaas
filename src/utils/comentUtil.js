@@ -193,7 +193,7 @@ export default {
    * */
   deleteArrItem(arr, arrItem) {
     arr.splice(
-      arr.findIndex((item) => item === arrItem),
+      arr.findIndex(item => item === arrItem),
       1
     )
   },
@@ -225,12 +225,12 @@ export default {
    * */
   byArrObjDeleteArrObj2(arrObj, arrObj2, objKey) {
     arrObj
-      .map((value) => {
+      .map(value => {
         return value[objKey]
       })
-      .forEach((value2) => {
+      .forEach(value2 => {
         arrObj2.splice(
-          arrObj2.findIndex((item) => item[objKey] === value2),
+          arrObj2.findIndex(item => item[objKey] === value2),
           1
         )
       })
@@ -246,7 +246,7 @@ export default {
     //foreach splice
     //for substring  slice 不改变原数组
     arrObj.splice(
-      arrObj.findIndex((item) => item[objKey] === value),
+      arrObj.findIndex(item => item[objKey] === value),
       1
     )
     return arrObj
@@ -258,7 +258,7 @@ export default {
    * return: arrObj查找 过后的数组
    * */
   findArrObjByKey(arrObj, objKey, value) {
-    return arrObj[arrObj.findIndex((item) => item[objKey] == value)]
+    return arrObj[arrObj.findIndex(item => item[objKey] == value)]
   },
   /*
    * 根据arrObj 筛选arrObj2   根据arrObj objKey值查找
@@ -270,11 +270,11 @@ export default {
   byArrObjFindArrObj2(arrObj, arrObj2, objKey) {
     let arrObj3 = []
     arrObj
-      .map((value) => {
+      .map(value => {
         return value[objKey]
       })
-      .forEach((value2) => {
-        let arrIndex = arrObj2.findIndex((item) => item[objKey] === value2)
+      .forEach(value2 => {
+        let arrIndex = arrObj2.findIndex(item => item[objKey] === value2)
         if (arrIndex !== -1) {
           arrObj3.push(arrObj2[arrIndex])
         }

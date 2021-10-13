@@ -1,64 +1,78 @@
 const setting = {
-  title: 'Vue3 Admin Template',
+  /**
+   * @type {string}
+   * @description 标题
+   */
+  title: '人力资源管理平台',
+
   /**
    * @type {boolean} true | false
-   * @description Whether fix the header
+   * @description 是否固定标题
    */
   fixedHeader: true,
+
   /**
    * @type {boolean} true | false
-   * @description Whether show the logo in sidebar
+   * @description 是否在侧边栏显示 logo
    */
   sidebarLogo: true,
+
   /**
    * @type {boolean} true | false
-   * @description Whether show the title in Navbar
+   * @description 是否在导航栏显示标题
    */
   showTitle: false,
+
   /**
    * @type {boolean} true | false
-   * @description Whether show the settings right-panel
+   * @description 是否显示右侧面板
    */
   showLeftMenu: true,
+
   /**
    * @type {boolean} true | false
-   * @description Whether show the drop-down
+   * @description 是否显示下拉
    */
   ShowDropDown: true,
-  showHamburger: true,
+
   /**
    * @type {boolean} true | false
-   * @description Whether need login
+   * @description 是否显示汉堡按钮
+   */
+  showHamburger: true,
+
+  /**
+   * @type {boolean} true | false
+   * @description 是否需要登录
    */
   isNeedLogin: true,
 
   /**
    * @type {boolean} true | false
-   * @description Whether need nprogress
+   * @description 是否需要进度条
    */
   isNeedNprogress: true,
 
   /**
    * @type {boolean} true | false
-   * @description Whether show TagsView
+   * @description 是否需要标签视图
    */
   needTagsView: true,
+
   /**
-   * @description TagsView show number
+   * @description 标签视图数量
    */
   tagsViewNum: 6,
-  //showSettings: true
+
   /**
    * @type {boolean} true | false
-   * @description Whether  open prod mock
+   * @description 是否启用模拟数据
    */
-  openProdMock: true,
+  openProdMock: false,
 
   /**
    * @type {string | array} 'serve' | ['build', 'serve']
-   * @description Need show err logs component.
-   * The default is only used in the production env
-   * If you want to also use it in dev, you can pass ['build', 'serve']
+   * @description 错误日志组件，默认仅生产环境生效，通过 ['build', 'serve'] 以在开发环境启用
    */
   errorLog: ['serve', 'build']
 }

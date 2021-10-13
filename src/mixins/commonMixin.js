@@ -60,7 +60,7 @@ const mixin = {
      * */
     clearParamsIsNullMixin(objParam) {
       const obj = Object.keys(objParam)
-      obj.forEach((fItem) => {
+      obj.forEach(fItem => {
         if (objParam[fItem] === '' || objParam[fItem] === null || objParam[fItem] === undefined) delete objParam[fItem]
       })
       return objParam
@@ -76,7 +76,7 @@ const mixin = {
     },
 
     sleepMixin(time) {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         const timer = setTimeout(() => {
           clearTimeout(timer)
           resolve()
@@ -84,13 +84,13 @@ const mixin = {
       })
     },
     resetDataMixin(form) {
-      Object.keys(form).forEach((sItem) => {
+      Object.keys(form).forEach(sItem => {
         form[sItem] = ''
       })
     },
     reshowDataMixin(row, form) {
-      Object.keys(row).forEach((fItem) => {
-        Object.keys(form).forEach((sItem) => {
+      Object.keys(row).forEach(fItem => {
+        Object.keys(form).forEach(sItem => {
           if (fItem === sItem) {
             form[sItem] = row[sItem]
           }

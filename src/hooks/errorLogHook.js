@@ -1,5 +1,5 @@
 //https://blog.csdn.net/weixin_34865745/article/details/113992767
-import request from '@/utils/axiosReq'
+import request from '@/utils/request'
 import setting from '@/settings'
 import bus from '@/utils/bus'
 export default function (app) {
@@ -19,7 +19,7 @@ export default function (app) {
     return false
   }
   if (checkNeed()) {
-    app.config.errorHandler = (err) => {
+    app.config.errorHandler = err => {
       request({
         url: '/ty-user/errorCollection/insert',
         data: { pageUrl: window.location.href, errorLog: `${err.message}---${err.stack}` },

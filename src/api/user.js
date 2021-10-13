@@ -1,7 +1,13 @@
-// import request from '@/utils/axiosReq'
+import request from '@/utils/request'
 
-export function loginReq() {}
-
-export function getInfoReq() {}
-
-export function logoutReq() {}
+/**
+ * 请求登录
+ * @param {*} data 请求体
+ * @returns
+ */
+export const loginReq = data =>
+  request({
+    url: '/sys/login',
+    method: 'POST',
+    data
+  })

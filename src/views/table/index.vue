@@ -40,7 +40,7 @@
 <script setup>
 import { toRefs, reactive, onBeforeMount } from 'vue'
 import { getList } from '@/api/table'
-const statusFilter = (status) => {
+const statusFilter = status => {
   const statusMap = {
     published: 'success',
     draft: 'info',
@@ -59,7 +59,7 @@ onBeforeMount(() => {
 
 const fetchData = () => {
   state.listLoading = true
-  getList().then((response) => {
+  getList().then(response => {
     console.log('response', response)
     state.list = response.data?.data.items
     state.listLoading = false

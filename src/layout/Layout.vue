@@ -13,13 +13,6 @@
     <!--<Settings />-->
   </div>
 </template>
-<!--原理vue2.0-->
-<script>
-/*可以设置默认的名字*/
-export default {
-  name: 'Layout'
-}
-</script>
 
 <script setup>
 import { Sidebar, Navbar, AppMain, TagsView } from './components'

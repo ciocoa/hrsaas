@@ -9,6 +9,14 @@ const mixin = {
         callback()
       }
     }
+    // 手机号具体校验
+    let mobileValid = (rule, value, callback) => {
+      if (!/^1[3-9]\d{9}$/.test(value)) {
+        callback(new Error('手机号格式错误'))
+      } else {
+        callback()
+      }
+    }
     // 大于0的整数
     let upZeroInt = (rule, value, callback) => {
       if (!/^\+?[1-9]\d*$/.test(value)) {
@@ -66,11 +74,18 @@ const mixin = {
         desc: [{ validator: validatePass, trigger: 'blur' }],
         upZeroInt: [{ validator: upZeroInt, trigger: 'blur' }],
         upZeroIntCanNull: [{ validator: upZeroIntCanNull, trigger: 'blur' }],
-        passwordValid: [{ validator: passwordValid, trigger: 'blur' }]
+        passwordValid: [
+          { required: true, message: '密码不能为空', trigger: 'blur' },
+          { validator: passwordValid, trigger: 'blur' }
+        ],
+        mobileValid: [
+          { required: true, message: '手机号不能为空', trigger: 'blur' },
+          { validator: mobileValid, trigger: 'blur' }
+        ]
       },
       /* 时间packing相关*/
       datePickerOptions: {
-        disabledDate: (time) => {
+        disabledDate: time => {
           return time.getTime() < Date.now() - 86400000
         }
       },

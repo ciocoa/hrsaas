@@ -13,7 +13,7 @@ const mutations = {
   M_sidebar_opened: (state, data) => {
     state.sidebar.opened = data
   },
-  M_toggleSideBar: (state) => {
+  M_toggleSideBar: state => {
     state.sidebar.opened = !state.sidebar.opened
   },
 
@@ -27,7 +27,7 @@ const mutations = {
     const index = state.cachedViews.indexOf(view)
     index > -1 && state.cachedViews.splice(index, 1)
   },
-  M_RESET_CACHED_VIEW: (state) => {
+  M_RESET_CACHED_VIEW: state => {
     state.cachedViews = []
   }
 }

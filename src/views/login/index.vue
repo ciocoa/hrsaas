@@ -1,21 +1,21 @@
-<!--suppress ALL -->
 <template>
   <div class="login-container columnCC">
     <el-form ref="refloginForm" size="medium" class="login-form" :model="formInline" :rules="formRulesMixin">
       <div class="title-container">
-        <h3 class="title text-center">{{ settings.title }}</h3>
+        <h3 class="title">
+          <img src="@/assets/common/login-logo.png" alt="" />
+        </h3>
       </div>
-      <el-form-item prop="username" :rules="formRulesMixin.isNotNull">
+      <el-form-item prop="mobile" :rules="formRulesMixin.mobileValid">
         <div class="rowSC">
           <span class="svg-container">
             <svg-icon icon-class="user" />
           </span>
-          <el-input v-model="formInline.username" placeholder="用户名(admin)" />
+          <el-input v-model="formInline.mobile" placeholder="手机" />
           <!--占位-->
-          <div class="show-pwd" />
+          <div class="show-pwd"></div>
         </div>
       </el-form-item>
-      <!--<el-form-item prop="password" :rules="formRulesMixin.passwordValid">-->
       <el-form-item prop="password" :rules="formRulesMixin.isNotNull">
         <div class="rowSC">
           <span class="svg-container">
@@ -28,7 +28,7 @@
             :type="passwordType"
             name="password"
             @keyup.enter="handleLogin"
-            placeholder="password(123456)"
+            placeholder="密码"
           />
           <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
@@ -37,29 +37,23 @@
       </el-form-item>
       <div class="tip-message">{{ tipMessage }}</div>
       <el-button :loading="loading" type="primary" class="login-btn" size="medium" @click.prevent="handleLogin">
-        Login
+        登录
       </el-button>
     </el-form>
   </div>
 </template>
 
-<script>
-/*可以设置默认的名字*/
-export default {
-  name: 'Login'
-}
-</script>
-
 <script setup>
 import { reactive, getCurrentInstance, watch, ref } from 'vue'
-import settings from '@/settings'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { ElMessage } from 'element-plus'
 let { proxy } = getCurrentInstance()
-//form
+/**
+ * form 表单数据
+ */
 let formInline = reactive({
-  username: 'admin',
+  mobile: '13800000002',
   password: '123456'
 })
 let state = reactive({
@@ -67,17 +61,17 @@ let state = reactive({
   redirect: undefined
 })
 
-/* listen router change  */
+/**
+ * 监听路由变化
+ */
 const route = useRoute()
-let getOtherQuery = query => {
-  return Object.keys(query).reduce((acc, cur) => {
+let getOtherQuery = query =>
+  Object.keys(query).reduce((acc, cur) => {
     if (cur !== 'redirect') {
       acc[cur] = query[cur]
     }
     return acc
   }, {})
-}
-
 watch(
   route,
   route => {
@@ -90,40 +84,51 @@ watch(
   { immediate: true }
 )
 
-/*
- *  login relative
- * */
+/**
+ * 请求登录 handleLogin
+ */
 let loading = ref(false)
 let tipMessage = ref('')
 const store = useStore()
 let handleLogin = () => {
-  let refloginForm = ''
-  proxy.$refs['refloginForm'].validate(valid => {
+  proxy.$refs.refloginForm.validate(async valid => {
     if (valid) {
-      loginReq()
+      // loginReq()
+      try {
+        // 开启转圈圈
+        loading.value = true
+        await store.dispatch('user/login', formInline)
+        ElMessage({ message: '登录成功!!!', type: 'success' })
+        proxy.$router.push({ path: state.redirect || '/', query: state.otherQuery })
+      } catch (error) {
+        tipMessage.value = error
+      } finally {
+        loading.value = false
+      }
     } else {
       return false
     }
   })
 }
-let loginReq = () => {
-  loading.value = true
-  store
-    .dispatch('user/login', formInline)
-    .then(() => {
-      ElMessage({ message: '登录成功', type: 'success' })
-      proxy.$router.push({ path: state.redirect || '/', query: state.otherQuery })
-    })
-    .catch(res => {
-      tipMessage.value = res.msg
-      proxy.sleepMixin(30).then(() => {
-        loading.value = false
-      })
-    })
-}
-/*
- *  password show or hidden
- * */
+// let loginReq = () => {
+//   loading.value = true
+//   store
+//     .dispatch('user/login', formInline)
+//     .then(() => {
+//       ElMessage({ message: '登录成功', type: 'success' })
+//       proxy.$router.push({ path: state.redirect || '/', query: state.otherQuery })
+//     })
+//     .catch(res => {
+//       tipMessage.value = res.msg
+//       proxy.sleepMixin(30).then(() => {
+//         loading.value = false
+//       })
+//     })
+// }
+
+/**
+ * 密码的显示和隐藏
+ */
 let passwordType = ref('password')
 const refPassword = ref(null)
 let showPwd = () => {
@@ -139,35 +144,28 @@ let showPwd = () => {
 </script>
 
 <style lang="scss" scoped>
-$bg: #2d3a4b;
 $dark_gray: #889aa4;
-$light_gray: #eee;
 .login-container {
   height: 100vh;
   width: 100%;
-  background-color: #2d3a4b;
+  background-image: url(@/assets/common/login.jpg);
+  background-position: center;
   .login-form {
     margin-bottom: 20vh;
-    width: 360px;
+    width: 436px;
   }
   .title-container {
     .title {
-      font-size: 22px;
-      color: #eee;
       margin: 0px auto 25px auto;
-      text-align: center;
-      font-weight: bold;
     }
   }
 }
-
 .svg-container {
   padding-left: 6px;
   color: $dark_gray;
   text-align: center;
   width: 30px;
 }
-
 //错误提示信息
 .tip-message {
   color: #e4393c;
@@ -175,11 +173,13 @@ $light_gray: #eee;
   margin-top: -12px;
   font-size: 12px;
 }
-
 //登录按钮
 .login-btn {
   width: 100%;
+  height: 48px;
+  line-height: 24px;
   margin-bottom: 30px;
+  font-size: 24px;
 }
 .show-pwd {
   width: 50px;
@@ -192,22 +192,27 @@ $light_gray: #eee;
 
 <style lang="scss">
 //css 样式重置 增加个前缀避免全局污染
+$light_gray: #68b0fe;
 .login-container {
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.7);
     border-radius: 5px;
     color: #454545;
+  }
+  .el-form-item__error {
+    color: #fff;
   }
   .el-input input {
     background: transparent;
     border: 0px;
     -webkit-appearance: none;
     border-radius: 0px;
-    padding: 10px 5px 10px 15px;
-    color: #fff;
-    height: 42px; //此处调整item的高度
-    caret-color: #fff;
+    padding: 10px 5px 9px 15px;
+    height: 48px; //此处调整item的高度
+    color: $light_gray;
+    caret-color: $light_gray;
+    font-size: 16px;
   }
 }
 </style>

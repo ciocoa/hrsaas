@@ -1,42 +1,39 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 const app = createApp(App)
+// 导入 路由
 import router from './router'
-import '@/styles/index.scss' // global css
-//import vuex
+// 导入 全局样式
+import '@/styles/index.scss'
+// 导入 vuex
 import store from './store'
 app.use(store)
-
-//import element-plus
+// 导入 element-plus
 import ElementPlus from 'element-plus'
+import locale from 'element-plus/es/locale/lang/zh-cn'
 import 'element-plus/dist/index.css'
-import zhCn from 'element-plus/es/locale/lang/zh-cn'
-app.use(ElementPlus, { size: 'mini', locale: zhCn })
-
-//global mixin
+app.use(ElementPlus, { size: 'mini', locale })
+// 导入全局 mixin
 import elementMixin from '@/mixins/elementMixin'
 app.mixin(elementMixin)
 import commonMixin from '@/mixins/commonMixin'
 app.mixin(commonMixin)
-
-//import axios req
-import axiosReq from '@/utils/axiosReq'
-app.config.globalProperties.$axiosReq = axiosReq
-
-//svg-icon
-//import svg-icon doc in  https://github.com/anncwb/vite-plugin-svg-icons/blob/main/README.zh_CN.md
+// 导入 axios
+import request from '@/utils/request'
+app.config.globalProperties.$axiosReq = request
+// 导入 svg-icon doc in  https://github.com/anncwb/vite-plugin-svg-icons/blob/main/README.zh_CN.md
 import 'virtual:svg-icons-register'
 import svgIcon from '@/icons/SvgIcon.vue'
 app.component('svg-icon', svgIcon)
 
-//global mount moment-mini
-import $momentMini from 'moment-mini'
-app.config.globalProperties.$momentMini = $momentMini
+// 导入 moment-mini 并挂载全局过滤器
+import momentMini from 'moment-mini'
+app.config.globalProperties.$momentMini = momentMini
 
-//import router  intercept
+// 导入 router  intercept
 import './permission'
 
-//error log  collection
+// 导入 error log  collection
 import errorLog from '@/hooks/errorLogHook'
 errorLog(app)
 

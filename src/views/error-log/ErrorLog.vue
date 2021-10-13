@@ -116,7 +116,7 @@ let selectPageReq = () => {
     pageNum: pageNum,
     pageSize: pageSize
   })
-  Object.keys(data).forEach((fItem) => {
+  Object.keys(data).forEach(fItem => {
     if (data[fItem] === '' || data[fItem] === null || data[fItem] === undefined) delete data[fItem]
   })
   let reqConfig = {
@@ -126,14 +126,14 @@ let selectPageReq = () => {
     isParams: true,
     isAlertErrorMsg: false
   }
-  proxy.$axiosReq(reqConfig).then((resData) => {
+  proxy.$axiosReq(reqConfig).then(resData => {
     usertableData.value = resData.data?.records
     proxy.pageTotalMixin = resData.data?.total
   })
 }
 import tablePageHook from '@/hooks/tablePageHook'
 let { pageNum, pageSize, handleCurrentChange, handleSizeChange } = tablePageHook(selectPageReq)
-const dateTimePacking = (timeArr) => {
+const dateTimePacking = timeArr => {
   if (timeArr && timeArr.length === 2) {
     searchFormMixin.startTime = timeArr[0]
     searchFormMixin.endTime = timeArr[1]
@@ -158,7 +158,7 @@ const searchBtnClick = () => {
 /*详情*/
 let detailData = ref({})
 /*删除*/
-let deleteByIdReq = (id) => {
+let deleteByIdReq = id => {
   return proxy.$axiosReq({
     url: '/ty-user/errorCollection/deleteById',
     data: { id: id },
@@ -167,7 +167,7 @@ let deleteByIdReq = (id) => {
     bfLoading: true
   })
 }
-let tableDelClick = async (row) => {
+let tableDelClick = async row => {
   await proxy.elConfirmMixin('确定', `您确定要删除【${row.pageUrl}】吗？`)
   deleteByIdReq(row.id).then(() => {
     selectPageReq()
@@ -177,13 +177,13 @@ let tableDelClick = async (row) => {
 
 /*批量删除*/
 let multipleSelection = ref([])
-const handleSelectionChange = (val) => {
+const handleSelectionChange = val => {
   multipleSelection.value = val
 }
 const multiDelBtnClick = async () => {
   let rowDeleteIdArrMixin = []
   let deleteNameTitle = ''
-  rowDeleteIdArrMixin = multipleSelection.value.map((mItem) => {
+  rowDeleteIdArrMixin = multipleSelection.value.map(mItem => {
     deleteNameTitle = deleteNameTitle + mItem.pageUrl + ','
     return mItem.id
   })

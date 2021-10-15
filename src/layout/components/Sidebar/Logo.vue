@@ -24,7 +24,7 @@ defineProps({
 })
 const state = reactive({
   title: setting.title,
-  logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+  logo: 'src/assets/common/logo.png'
 })
 //export to page for
 let { title, logo } = toRefs(state)

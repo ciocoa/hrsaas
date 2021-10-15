@@ -3,7 +3,7 @@ import store from './store'
 import settings from './settings'
 import NProgress from 'nprogress'
 NProgress.configure({ showSpinner: false })
-import 'nprogress/nprogress.css'
+import 'nprogress/css/nprogress.css'
 import getPageTitle from '@/utils/getPageTitle'
 
 // 不受权限控制的白名单

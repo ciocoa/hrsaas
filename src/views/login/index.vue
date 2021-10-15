@@ -12,7 +12,6 @@
             <svg-icon icon-class="user" />
           </span>
           <el-input v-model="formInline.mobile" placeholder="手机" />
-          <!--占位-->
           <div class="show-pwd"></div>
         </div>
       </el-form-item>
@@ -37,7 +36,7 @@
       </el-form-item>
       <div class="tip-message">{{ tipMessage }}</div>
       <el-button :loading="loading" type="primary" class="login-btn" size="medium" @click.prevent="handleLogin">
-        登录
+        登 录
       </el-button>
     </el-form>
   </div>

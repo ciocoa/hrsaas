@@ -56,7 +56,7 @@ onMounted(() => {
 //显示sidebarItem 的情况
 proxy.onlyOneChild = null
 let showSidebarItem = (children = [], parent) => {
-  const showingChildren = children.filter((item) => {
+  const showingChildren = children.filter(item => {
     if (item.hidden) {
       return false
     } else {
@@ -74,7 +74,7 @@ let showSidebarItem = (children = [], parent) => {
   }
   return false
 }
-let resolvePath = (routePath) => {
+let resolvePath = routePath => {
   if (isExternal(routePath)) {
     return routePath
   }

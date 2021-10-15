@@ -49,7 +49,7 @@ ResizeHook()
 .sidebar-container {
   transition: width 0.28s;
   width: $sideBarWidth !important;
-  background-color: $menuBg;
+  background: $menuBg;
   height: 100%;
   position: fixed;
   font-size: 0;

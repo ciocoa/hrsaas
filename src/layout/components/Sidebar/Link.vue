@@ -1,6 +1,6 @@
 <template>
   <component :is="type" v-bind="linkProps(to)">
-    <slot />
+    <slot></slot>
   </component>
 </template>
 
@@ -43,5 +43,3 @@ onMounted(() => {
   console.log(props.to)
 })
 </script>
-
-<style scoped lang="scss"></style>

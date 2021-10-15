@@ -77,7 +77,7 @@ watch(
 )
 watch(
   () => state.visible,
-  (value) => {
+  value => {
     if (value) {
       document.body.addEventListener('click', closeMenu)
     } else {
@@ -88,7 +88,7 @@ watch(
 
 watch(
   () => state.visible,
-  (value) => {
+  value => {
     if (value) {
       document.body.addEventListener('click', closeMenu)
     } else {
@@ -102,16 +102,16 @@ onMounted(() => {
   addTags()
 })
 
-const isActive = (route) => {
+const isActive = route => {
   return route.path === proxy.$route.path
 }
-const isAffix = (tag) => {
+const isAffix = tag => {
   return tag.meta && tag.meta.affix
 }
 
 const filterAffixTags = (routes, basePath = '/') => {
   let tags = []
-  routes.forEach((route) => {
+  routes.forEach(route => {
     if (route.meta && route.meta.affix) {
       const tagPath = path.resolve(basePath, route.path)
       tags.push({
@@ -165,7 +165,7 @@ const moveToCurrentTag = () => {
   })
 }
 
-const refreshSelectedTag = (view) => {
+const refreshSelectedTag = view => {
   store.dispatch('tagsView/delCachedView', view).then(() => {
     const { fullPath } = view
     proxy.$nextTick(() => {
@@ -175,7 +175,7 @@ const refreshSelectedTag = (view) => {
     })
   })
 }
-const closeSelectedTag = (view) => {
+const closeSelectedTag = view => {
   store.dispatch('tagsView/delView', view).then(({ visitedViews }) => {
     if (isActive(view)) {
       toLastView(visitedViews, view)
@@ -188,9 +188,9 @@ const closeOthersTags = () => {
     moveToCurrentTag()
   })
 }
-const closeAllTags = (view) => {
+const closeAllTags = view => {
   store.dispatch('tagsView/delAllViews').then(({ visitedViews }) => {
-    if (state.affixTags.some((tag) => tag.path === view.path)) {
+    if (state.affixTags.some(tag => tag.path === view.path)) {
       return
     }
     toLastView(visitedViews, view)

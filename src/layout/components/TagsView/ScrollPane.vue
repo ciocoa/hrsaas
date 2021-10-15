@@ -1,6 +1,6 @@
 <template>
   <el-scrollbar ref="refScrollContainer" :vertical="false" class="scroll-container" @wheel="handleScroll">
-    <slot />
+    <slot></slot>
   </el-scrollbar>
 </template>
 
@@ -22,7 +22,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   scrollWrapper.value.removeEventListener('scroll', emitScroll)
 })
-const handleScroll = (e) => {
+const handleScroll = e => {
   const eventDelta = e.wheelDelta || -e.deltaY * 40
   const $scrollWrapper = scrollWrapper.value
   $scrollWrapper.scrollLeft = $scrollWrapper.scrollLeft + eventDelta / 4
@@ -31,7 +31,7 @@ const emit = defineEmits(['scroll'])
 const emitScroll = () => {
   emit('scroll')
 }
-const moveToTarget = (currentTag) => {
+const moveToTarget = currentTag => {
   const $container = refScrollContainer.value.$el
   const $containerWidth = $container.offsetWidth
   const $scrollWrapper = scrollWrapper.value
@@ -52,7 +52,7 @@ const moveToTarget = (currentTag) => {
     $scrollWrapper.scrollLeft = $scrollWrapper.scrollWidth - $containerWidth
   } else {
     // find preTag and nextTag
-    const currentIndex = tagList.findIndex((item) => item === currentTag)
+    const currentIndex = tagList.findIndex(item => item === currentTag)
     const prevTag = tagList[currentIndex - 1]
     const nextTag = tagList[currentIndex + 1]
 

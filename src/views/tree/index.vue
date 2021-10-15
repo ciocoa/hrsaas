@@ -74,7 +74,7 @@ const state = reactive({
 const tree2 = ref(null)
 watch(
   () => state.filterText,
-  (val) => {
+  val => {
     tree2.value.filter(val)
   },
   { immediate: false }

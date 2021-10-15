@@ -1,7 +1,7 @@
-import store from '@/store'
+// import store from '@/store'
 import axios from 'axios'
-import { ElLoading, ElMessage, ElMessageBox } from 'element-plus'
-import { getToken, setToken } from '@/utils/auth'
+import { ElLoading, ElMessage } from 'element-plus'
+import { getToken } from '@/utils/auth'
 
 let requestData
 let loadingE

@@ -14,7 +14,7 @@
         :active-text-color="variables.menuActiveText"
         mode="vertical"
       >
-        <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
+        <SidebarItem v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
   </div>
@@ -37,14 +37,11 @@ const isCollapse = computed(() => {
   return store.state.app.sidebar.opened
 })
 const variables = computed(() => {
-  // let data = JSON.parse(scssVariables.replace(/:export\s*/, ''))
-  // console.log('scssVariables')
-  // console.log(typeof data)
   return {
-    menuText: '#bfcbd9',
+    menuText: '#fff',
     menuActiveText: '#409EFF',
     subMenuActiveText: '#f4f4f5',
-    menuBg: '#304156',
+    menuBg: 'transparent',
     menuHover: '#263445',
     subMenuBg: '#1f2d3d',
     subMenuHover: '#001528',

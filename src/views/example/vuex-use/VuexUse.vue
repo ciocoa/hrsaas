@@ -17,8 +17,8 @@ export default {
   name: 'Login',
   computed: {
     ...mapState({
-      opened: (state) => state.app,
-      opened2: (state) => state.app
+      opened: state => state.app,
+      opened2: state => state.app
     })
   }
 }

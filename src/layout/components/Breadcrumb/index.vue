@@ -18,28 +18,28 @@ let levelList = ref(null)
 let { proxy } = getCurrentInstance()
 const getBreadcrumb = () => {
   // only show routes with meta.title
-  let matched = proxy.$route.matched.filter((item) => item.meta && item.meta.title)
+  let matched = proxy.$route.matched.filter(item => item.meta && item.meta.title)
   const first = matched[0]
   if (!isDashboard(first)) {
     //it can replace the first page if not exits
     matched = [{ path: '/dashboard', meta: { title: 'Dashboard' } }].concat(matched)
   }
-  levelList.value = matched.filter((item) => item.meta && item.meta.title && item.meta.breadcrumb !== false)
+  levelList.value = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
 }
 
-const isDashboard = (route) => {
+const isDashboard = route => {
   const name = route?.name
   if (!name) {
     return false
   }
   return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
 }
-const pathCompile = (path) => {
+const pathCompile = path => {
   const { params } = proxy.$route
   const toPath = compile(path)
   return toPath(params)
 }
-const handleLink = (item) => {
+const handleLink = item => {
   const { redirect, path } = item
   if (redirect) {
     proxy.$router.push(redirect)
@@ -68,7 +68,6 @@ onBeforeMount(() => {
   font-size: 14px;
   line-height: 50px;
   margin-left: 8px;
-
   .no-redirect {
     color: #97a8be;
     cursor: text;

@@ -26,7 +26,7 @@ const childMethod = () => {
   console.log(refChildren.value.childMethod())
   console.log(refChildren.value.childRef)
 }
-const emitParent = (data) => {
+const emitParent = data => {
   console.log('得到子组件的信息111', data)
 }
 const fartherMethod = () => {

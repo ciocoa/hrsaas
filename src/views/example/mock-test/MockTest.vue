@@ -8,7 +8,7 @@
 // import '@/mock/index.js'
 import axios from 'axios'
 const listReq = () => {
-  axios.get('/getMapInfo').then((res) => {
+  axios.get('/getMapInfo').then(res => {
     if (res.data) {
       console.log(res.data)
       alert(res.data.title)

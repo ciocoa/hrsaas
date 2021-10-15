@@ -1,8 +1,9 @@
-import { loginReq } from '@/api/user'
+import { loginReq, getUserInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 // 状态
 const state = {
-  token: getToken()
+  token: getToken(),
+  userInfo: {}
 }
 // 修改状态
 const mutations = {
@@ -13,6 +14,13 @@ const mutations = {
   removeToken(state) {
     state.token = null
     removeToken()
+  },
+  setUserInfo(state, userInfo) {
+    // 浅拷贝的方式赋值对象
+    state.userInfo = { ...userInfo }
+  },
+  removeUserInfo(state) {
+    state.userInfo = {}
   }
 }
 // 执行异步
@@ -20,6 +28,11 @@ const actions = {
   async login(context, data) {
     const result = await loginReq(data)
     context.commit('setToken', result)
+  },
+  async getUserInfo(context) {
+    const result = await getUserInfo()
+    context.commit('setUserInfo', result)
+    return result
   }
 }
 

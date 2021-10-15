@@ -1,27 +1,26 @@
-// import store from '@/store'
-import axios from 'axios'
 import { ElLoading, ElMessage } from 'element-plus'
-import { getToken } from '@/utils/auth'
+import axios from 'axios'
+import store from '@/store'
 
-let requestData
+let reqData
 let loadingE
 
 const service = axios.create()
 // 请求拦截
 service.interceptors.request.use(
-  request => {
-    // console.log('request', request)
+  req => {
     // token配置
-    request.headers['AUTHORIZE_TOKEN'] = getToken()
-    /* 下载文件*/
-    if (request.isDownLoadFile) {
-      request.responseType = 'blob'
+    if (store.getters.token) req.headers['Authorization'] = `Bearer ${store.getters.token}`
+    // 若是下载文件
+    if (req.isDownLoadFile) {
+      req.responseType = 'blob'
     }
-    if (request.isUploadFile) {
-      request.headers['Content-Type'] = 'multipart/form-data'
+    // 若是上传文件
+    if (req.isUploadFile) {
+      req.headers['Content-Type'] = 'multipart/form-data'
     }
-    requestData = request
-    if (request.bfLoading) {
+    reqData = req
+    if (req.bfLoading) {
       loadingE = ElLoading.service({
         lock: true,
         text: '数据载入中',
@@ -29,14 +28,12 @@ service.interceptors.request.use(
         background: 'rgba(0, 0, 0, 0.1)'
       })
     }
-    /*
-     *params会拼接到url上
-     * */
-    if (request.isParams) {
-      request.params = request.data
-      request.data = {}
+    // params会拼接到url上
+    if (req.isParams) {
+      req.params = req.data
+      req.data = {}
     }
-    return request
+    return req
   },
   err => {
     Promise.reject(err)
@@ -45,11 +42,11 @@ service.interceptors.request.use(
 // 响应拦截
 service.interceptors.response.use(
   res => {
-    if (requestData.afHLoading && loadingE) {
+    if (reqData.afHLoading && loadingE) {
       loadingE.close()
     }
     // 如果是下载文件直接返回
-    if (requestData.isDownLoadFile) {
+    if (reqData.isDownLoadFile) {
       return res.data
     }
     const { success, message, data } = res.data

@@ -37,8 +37,4 @@ import './permission'
 import * as directives from '@/directives'
 Object.keys(directives).forEach(key => app.directive(key, directives[key]))
 
-// 导入 error log  collection
-import errorLog from '@/hooks/errorLogHook'
-errorLog(app)
-
 app.use(router).mount('#app')

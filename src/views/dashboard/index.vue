@@ -1,23 +1,19 @@
-<template>
-  <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ username }}</div>
-  </div>
+<template lang="pug">
+.dashboard-container
+  .dashboard-text name:::::: {{ username }}
 </template>
 
 <script setup>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
-
-let store = useStore()
-const username = computed(() => {
-  return store.state.user.username
-})
+const store = useStore()
+const username = computed(() => store.getters.userInfo.username)
 </script>
 
 <style lang="scss" scoped>
 .dashboard {
   &-container {
-    //margin: 30px;
+    margin: 30px;
   }
   &-text {
     font-size: 30px;

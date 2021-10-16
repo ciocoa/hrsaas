@@ -8,7 +8,6 @@ import request from '@/utils/request'
 export const loginReq = data =>
   request({
     url: '/sys/login',
-    method: 'POST',
     data
   })
 /**
@@ -17,8 +16,7 @@ export const loginReq = data =>
  */
 export const getUserInfo = () =>
   request({
-    url: '/sys/profile',
-    method: 'POST'
+    url: '/sys/profile'
   })
 /**
  * 请求用户头像

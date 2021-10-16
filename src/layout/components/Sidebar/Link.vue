@@ -1,7 +1,6 @@
-<template>
-  <component :is="type" v-bind="linkProps(to)">
-    <slot></slot>
-  </component>
+<template lang="pug">
+component(:is="type" v-bind="linkProps(to)")
+  slot
 </template>
 
 <script setup>
@@ -14,32 +13,27 @@ const props = defineProps({
     required: true
   }
 })
-const isExternalValid = computed(() => {
-  return isExternal(proxy.to)
-})
+const isExternalValid = computed(() => isExternal(proxy.to))
 const type = computed(() => {
-  if (isExternalValid.value) {
-    return 'a'
-  }
+  if (isExternalValid.value) return 'a'
   return 'router-link'
 })
 const linkProps = to => {
-  if (isExternalValid.value) {
+  if (isExternalValid.value)
     return {
       href: to,
       target: '_blank',
       rel: 'noopener'
     }
-  }
   return {
     to: to
   }
 }
-const state = reactive({
-  levelList: null
-})
+// const state = reactive({
+//   levelList: null
+// })
 onMounted(() => {
-  console.log(state.levelList)
-  console.log(props.to)
+  // console.log(state.levelList)
+  // console.log(`链接为：${props.to}`)
 })
 </script>

@@ -27,8 +27,6 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.8",
-    "@babel/eslint-parser": "^7.15.8",
     "@fullcalendar/vue3": "^5.10.0",
     "@vitejs/plugin-legacy": "^1.6.2",
     "@vitejs/plugin-vue": "^1.9.3",
@@ -36,11 +34,10 @@
     "@vue/compiler-sfc": "^3.2.20",
     "@vue/eslint-config-prettier": "^6.0.0",
     "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-vue": "^7.19.1",
     "prettier": "^2.4.1",
+    "pug": "^3.0.2",
     "sass": "^1.43.2",
     "scss": "^0.2.4",
     "svg-sprite-loader": "^6.0.9",

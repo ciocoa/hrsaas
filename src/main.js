@@ -33,6 +33,10 @@ app.config.globalProperties.$momentMini = momentMini
 // 导入 router  intercept
 import './permission'
 
+// 导入自定义指令
+import * as directives from '@/directives'
+Object.keys(directives).forEach(key => app.directive(key, directives[key]))
+
 // 导入 error log  collection
 import errorLog from '@/hooks/errorLogHook'
 errorLog(app)

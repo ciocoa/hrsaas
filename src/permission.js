@@ -35,8 +35,8 @@ router.beforeEach(async (to, from, next) => {
         next()
       } else {
         try {
-          // 获取用户信息
-          await store.dispatch('user/getInfo')
+          // 判断 vuex 中是否存在用户信息，不存在则获取用户信息
+          if (!store.getters.userInfo.userId) await store.dispatch('user/getUserInfo')
           // 保存过滤后的路由到 vuex 中供菜单使用
           store.commit('permission/M_routes', asyncRoutes)
           store.commit('permission/M_isSettingPermission', true)
@@ -47,8 +47,8 @@ router.beforeEach(async (to, from, next) => {
            */
           next({ ...to, replace: true })
         } catch (err) {
-          await store.dispatch('user/resetToken')
-          next(`/login?redirect=${to.path}`)
+          // await store.dispatch('user/resetToken')
+          // next(`/login?redirect=${to.path}`)
         }
       }
     }

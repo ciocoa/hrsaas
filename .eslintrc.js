@@ -16,11 +16,12 @@ module.exports = {
     defineProps: true,
     defineExpose: true
   },
-  extends: ['plugin:vue/vue3-essential', 'eslint:recommended', '@vue/prettier', '@vue/prettier/@typescript-eslint'],
+  extends: ['plugin:vue/vue3-essential', 'eslint:recommended', '@vue/prettier'],
   parserOptions: {
     ecmaVersion: 2021
   },
   rules: {
+    'no-unused-vars': 'off',
     'linebreak-style': ['error', 'unix'],
     'import/no-unresolved': 'off',
     'import/extensions': 'off',

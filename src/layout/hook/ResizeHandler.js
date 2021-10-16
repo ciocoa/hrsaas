@@ -2,7 +2,7 @@ import { onBeforeMount, onMounted, onBeforeUnmount } from 'vue'
 import store from '@/store'
 const { body } = document
 const WIDTH = 992
-export default function () {
+export default () => {
   const $_isMobile = () => {
     const rect = body.getBoundingClientRect()
     return rect.width - 1 < WIDTH
@@ -23,7 +23,7 @@ export default function () {
     }
   }
   onBeforeMount(() => {
-    console.log('添加了监听')
+    // console.log('添加了监听')
     window.addEventListener('resize', $_resizeHandler)
   })
   onMounted(() => {

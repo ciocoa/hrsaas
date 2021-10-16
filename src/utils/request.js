@@ -1,16 +1,29 @@
 import { ElLoading, ElMessage } from 'element-plus'
 import axios from 'axios'
+import { getTimeStamp } from '@/utils/auth'
 import store from '@/store'
+import router from '@/router'
 
 let reqData
 let loadingE
+let currentTime = Date.now()
+let timeStamp = getTimeStamp()
+const TimeOut = 3600
+const IsCheckTimeOut = () => (currentTime - timeStamp) / 1000 > TimeOut
 
 const service = axios.create()
 // 请求拦截
 service.interceptors.request.use(
   req => {
     // token配置
-    if (store.getters.token) req.headers['Authorization'] = `Bearer ${store.getters.token}`
+    if (store.getters.token) {
+      if (IsCheckTimeOut()) {
+        store.dispatch('user/logout')
+        router.push(`/login`)
+        return Promise.reject(new Error('令牌已失效'))
+      }
+      req.headers['Authorization'] = `Bearer ${store.getters.token}`
+    }
     // 若是下载文件
     if (req.isDownLoadFile) {
       req.responseType = 'blob'

@@ -1,14 +1,10 @@
-<template>
-  <div class="sidebar-logo-container" :class="{ collapse: collapse }">
-    <transition name="sidebarLogoFade">
-      <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo" />
-      </router-link>
-      <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo" />
-      </router-link>
-    </transition>
-  </div>
+<template lang="pug">
+.sidebar-logo-container(:class="{ collapse: collapse }")
+  transition(name="sidebarLogoFade")
+    router-link.sidebar-logo-link(v-if="collapse" key="collapse" to="/")
+      img.sidebar-logo(v-if="logo" :src="logo")
+    router-link.sidebar-logo-link(v-else key="expand" to="/")
+      img.sidebar-logo(v-if="logo" :src="logo")
 </template>
 
 <script setup>
@@ -24,11 +20,10 @@ const state = reactive({
   title: setting.title,
   logo: 'src/assets/common/logo.png'
 })
-//export to page for
 let { logo } = toRefs(state)
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 /*
    vue3.0 过度效果
    enter-> enter-from
@@ -44,8 +39,8 @@ let { logo } = toRefs(state)
 .sidebar-logo-container {
   position: relative;
   width: 100%;
-  height: 50px;
-  line-height: 50px;
+  height: 64px;
+  line-height: 64px;
   text-align: center;
   overflow: hidden;
   & .sidebar-logo-link {
@@ -53,7 +48,6 @@ let { logo } = toRefs(state)
     width: 100%;
     & .sidebar-logo {
       width: 140px;
-      height: 36px;
       vertical-align: middle;
       margin-right: 12px;
     }

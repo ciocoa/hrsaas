@@ -1,27 +1,15 @@
-<template>
-  <template v-if="!item.hidden">
-    <template v-if="showSidebarItem(item.children, item)">
-      <Link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
-        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{ 'submenu-title-noDropdown': !isNest }">
-          <Item :icon="onlyOneChild.meta?.icon || item.meta?.icon" />
-          <template #title>{{ onlyOneChild.meta?.title }}</template>
-        </el-menu-item>
-      </Link>
-    </template>
-    <el-sub-menu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
-      <template #title>
-        <Item v-if="item.meta" :icon="item.meta && item.meta.icon" />
-        <span>{{ item.meta.title }}</span>
-      </template>
-      <SidebarItem
-        v-for="child in item.children"
-        :key="child.path"
-        :is-nest="true"
-        :item="child"
-        :base-path="resolvePath(child.path)"
-      />
-    </el-sub-menu>
-  </template>
+<template lang="pug">
+template(v-if="!item.hidden")
+  template(v-if="showSidebarItem(item.children, item)")
+    Link(v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)")
+      el-menu-item(:index="resolvePath(onlyOneChild.path)" :class="{ 'submenu-title-noDropdown': !isNest }")
+        item(:icon="onlyOneChild.meta?.icon || item.meta?.icon")
+        template(#title) {{ onlyOneChild.meta?.title }}
+  el-sub-menu(v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body)
+    template(#title)
+      item(v-if="item.meta" :icon="item.meta && item.meta.icon")
+      span {{ item.meta.title }}
+    sidebar-item(v-for="child in item.children" :base-path="resolvePath(child.path)" :item="child" :key="child.path" :is-nest="true")
 </template>
 
 <script setup>

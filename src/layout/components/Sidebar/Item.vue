@@ -1,5 +1,5 @@
-<template>
-  <svg-icon :icon-class="icon" className="nav-icon" />
+<template lang="pug">
+svg-icon(:icon-class="icon" className="nav-icon")
 </template>
 <script setup>
 defineProps({

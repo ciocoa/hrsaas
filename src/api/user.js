@@ -20,3 +20,12 @@ export const getUserInfo = () =>
     url: '/sys/profile',
     method: 'POST'
   })
+/**
+ * 请求用户头像
+ * @param {number} id 用户ID
+ */
+export const getUserDetailById = id => {
+  request({
+    url: `/sys/user/${id}`
+  })
+}

@@ -1,23 +1,9 @@
-<template>
-  <div id="Sidebar">
-    <!--logo-->
-    <Logo :collapse="!isCollapse" v-if="settings.sidebarLogo" />
-    <!--router nav-->
-    <el-scrollbar wrap-class="scrollbar-wrapper reset-menu-style">
-      <el-menu
-        :default-active="activeMenu"
-        :collapse="!isCollapse"
-        :unique-opened="false"
-        :collapse-transition="false"
-        :background-color="variables.menuBg"
-        :text-color="variables.menuText"
-        :active-text-color="variables.menuActiveText"
-        mode="vertical"
-      >
-        <SidebarItem v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
-      </el-menu>
-    </el-scrollbar>
-  </div>
+<template lang="pug">
+#Sidebar
+  logo(:collapse="!isCollapse" v-if="settings.sidebarLogo")
+  el-scrollbar(wrap-class="scrollbar-wrapper reset-menu-style")
+    el-menu(mode="vertical" :active-text-color="variables.menuActiveText" :text-color="variables.menuText" :background-color="variables.menuBg" :collapse-transition="false" :default-active="activeMenu" :collapse="!isCollapse" :unique-opened="false")
+      sidebar-item(v-for="route in routes" :key="route.path" :item="route" :base-path="route.path")
 </template>
 
 <script setup>
@@ -30,12 +16,8 @@ import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 const store = useStore()
 const route = useRoute()
-let routes = computed(() => {
-  return store.state.permission.routes
-})
-const isCollapse = computed(() => {
-  return store.state.app.sidebar.opened
-})
+let routes = computed(() => store.state.permission.routes)
+const isCollapse = computed(() => store.getters.sidebar.opened)
 const variables = computed(() => {
   return {
     menuText: '#fff',
@@ -51,9 +33,7 @@ const variables = computed(() => {
 const activeMenu = computed(() => {
   const { meta, fullPath } = route
   // if set path, the sidebar will highlight the path you set
-  if (meta.activeMenu) {
-    return meta.activeMenu
-  }
+  if (meta.activeMenu) return meta.activeMenu
   return fullPath
 })
 </script>

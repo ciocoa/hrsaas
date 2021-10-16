@@ -1,34 +1,27 @@
-<template>
-  <div :class="classObj" class="layout-wrapper">
-    <!--left side-->
-    <Sidebar class="sidebar-container" v-if="settings.showLeftMenu" />
-    <!--right side-->
-    <div class="main-container">
-      <div>
-        <Navbar />
-        <TagsView v-if="settings.needTagsView" />
-      </div>
-      <AppMain />
-    </div>
-    <!--<Settings />-->
-  </div>
+<template lang="pug">
+.layout-wrapper(:class="classObj")
+  sidebar.sidebar-container(v-if="settings.showLeftMenu")
+  .main-container
+    div 
+      navbar
+      tags-view(v-if="settings.needTagsView")
+    app-main
 </template>
 
 <script setup>
 import { Sidebar, Navbar, AppMain, TagsView } from './components'
-import { getCurrentInstance, computed } from 'vue'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 import settings from '@/settings'
-let { proxy } = getCurrentInstance()
-let opened = computed(() => {
-  return proxy.$store.state.app.sidebar.opened
-})
+const store = useStore()
+let opened = computed(() => store.getters.sidebar.opened)
 let classObj = computed(() => {
   return {
     closeSidebar: !opened.value,
     hideSidebar: !settings.showLeftMenu
   }
 })
-//import ResizeHook to   listen  page size that   open or close
+// 导入 ResizeHook 以监听打开或关闭的页面大小
 import ResizeHook from './hook/ResizeHandler'
 ResizeHook()
 </script>

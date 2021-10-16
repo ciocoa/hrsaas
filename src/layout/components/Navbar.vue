@@ -1,68 +1,50 @@
-<template>
-  <div class="navbar rowBC">
-    <div class="rowSC">
-      <Hamburger
-        v-if="settings.showHamburger"
-        :is-active="opened"
-        class="hamburger-container"
-        @toggleClick="toggleSideBar"
-      />
-      <div class="app-breadcrumb">
-        ***科技股份有限公司
-        <span class="breadBtn">体验版</span>
-      </div>
-      <!-- <Breadcrumb class="breadcrumb-container" /> -->
-    </div>
-    <!--nav title-->
-    <div class="heardCenterTitle" v-if="settings.showTitle">{{ settings.showTitle }}</div>
-    <div class="right-menu" v-if="settings.ShowDropDown">
-      <el-dropdown trigger="click" size="medium">
-        <div class="avatar-wrapper">
-          <img
-            src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"
-            class="user-avatar"
-          />
-          <span class="name">管理员</span>
-          <i class="el-icon-caret-bottom"></i>
-        </div>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <router-link to="/">
-              <el-dropdown-item>首页</el-dropdown-item>
-            </router-link>
-            <a target="_blank" href="https://github.com/RedsNina/hrsaas-practice">
-              <el-dropdown-item>Github</el-dropdown-item>
-            </a>
-            <!--<el-dropdown-item>修改密码</el-dropdown-item>-->
-            <el-dropdown-item divided @click="loginOut">注销</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-    </div>
-  </div>
+<template lang="pug">
+.navbar.rowBC
+  .rowSC 
+    hamburger.hamburger-container(v-if="settings.showHamburger" :is-active="opened" @toggleClick="toggleSideBar")
+    .app-breadcrumb 传智科技股份有限公司
+      span.breadBtn 体验版
+    breadcrumb.breadcrumb-container
+  .heardCenterTitle(v-if="settings.showTitle") {{ settings.showTitle }}
+  .right-menu(v-if="settings.ShowDropDown")
+    el-dropdown(trigger="click" size="medium")
+      .avatar-wrapper
+        img.user-avatar(v-imagerror="defaultImage" :src="defaultImage")
+        span.name {{ username }}
+        i.el-icon-caret-bottom
+      template(#dropdown)
+        el-dropdown-menu
+          router-link(to='/')
+            el-dropdown-item 首页
+          a(target="_blank" href="https://github.com/RedsNina/hrsaas-practice")
+            el-dropdown-item Github
+          el-dropdown-item 修改密码
+          el-dropdown-item(divided @click="loginOut") 注销
 </template>
 
 <script setup>
-// import Breadcrumb from './Breadcrumb'
-import Hamburger from './Hamburger'
-import { computed, getCurrentInstance } from 'vue'
 import settings from '@/settings'
+import Breadcrumb from './Breadcrumb'
+import Hamburger from './Hamburger'
+import { toRefs, reactive, computed, getCurrentInstance } from 'vue'
 import { useStore } from 'vuex'
 import { ElMessage } from 'element-plus'
-let { proxy } = getCurrentInstance()
-
-const opened = computed(() => {
-  return proxy.$store.state.app.sidebar.opened
-})
-const toggleSideBar = () => {
-  proxy.$store.commit('app/M_toggleSideBar')
-}
-
-// 退出登录
 const store = useStore()
+let { proxy } = getCurrentInstance()
+// 汉堡按钮开关
+const opened = computed(() => store.getters.sidebar.opened)
+const toggleSideBar = () => store.commit('app/M_toggleSideBar')
+// 用户信息
+const userInfo = reactive({
+  username: computed(() => store.getters.userInfo.username),
+  staffPhoto: computed(() => store.getters.userInfo.staffPhoto),
+  defaultImage: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80'
+})
+const { username, defaultImage } = toRefs(userInfo)
+// 注销登录
 const loginOut = () => {
   store.dispatch('user/logout').then(() => {
-    ElMessage({ message: '退出登录成功', type: 'success' })
+    ElMessage({ message: '注销成功', type: 'success' })
     proxy.$router.push(`/login?redirect=${proxy.$route.fullPath}`)
   })
 }
@@ -99,7 +81,6 @@ const loginOut = () => {
   margin-top: 5px;
   position: relative;
   cursor: pointer;
-
   .user-avatar {
     cursor: pointer;
     width: 36px;
@@ -121,7 +102,6 @@ const loginOut = () => {
     color: #fff;
   }
 }
-
 //center-title
 .heardCenterTitle {
   text-align: center;
@@ -132,7 +112,6 @@ const loginOut = () => {
   font-size: 20px;
   transform: translate(-50%, -50%);
 }
-
 //drop-down
 .right-menu {
   cursor: pointer;

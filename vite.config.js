@@ -24,8 +24,7 @@ export default defineConfig({
         target: 'http://ihrm-java.itheima.net/',
         changeOrigin: true,
         secure: false
-        // 不需要路径重写
-        // pathRewrite:{}
+        // pathRewrite:{} // 不需要路径重写
       }
     }
   },

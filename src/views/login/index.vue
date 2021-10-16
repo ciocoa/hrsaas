@@ -1,56 +1,32 @@
-<template>
-  <div class="login-container columnCC">
-    <el-form ref="refloginForm" size="medium" class="login-form" :model="formInline" :rules="formRulesMixin">
-      <div class="title-container">
-        <h3 class="title">
-          <img src="@/assets/common/login-logo.png" alt="" />
-        </h3>
-      </div>
-      <el-form-item prop="mobile" :rules="formRulesMixin.mobileValid">
-        <div class="rowSC">
-          <span class="svg-container">
-            <svg-icon icon-class="user" />
-          </span>
-          <el-input v-model="formInline.mobile" placeholder="手机" />
-          <div class="show-pwd"></div>
-        </div>
-      </el-form-item>
-      <el-form-item prop="password" :rules="formRulesMixin.isNotNull">
-        <div class="rowSC">
-          <span class="svg-container">
-            <svg-icon icon-class="password" />
-          </span>
-          <el-input
-            :key="passwordType"
-            ref="refPassword"
-            v-model="formInline.password"
-            :type="passwordType"
-            name="password"
-            @keyup.enter="handleLogin"
-            placeholder="密码"
-          />
-          <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-          </span>
-        </div>
-      </el-form-item>
-      <div class="tip-message">{{ tipMessage }}</div>
-      <el-button :loading="loading" type="primary" class="login-btn" size="medium" @click.prevent="handleLogin">
-        登 录
-      </el-button>
-    </el-form>
-  </div>
+<template lang="pug">
+.login-container.columnCC
+  el-form.login-form(ref="refloginForm" size="medium" :model="formInline" :rules="formRulesMixin")
+    .title-container
+      h3.title
+        img(src="@/assets/common/login-logo.png")
+    el-form-item(prop="mobile" :rules="formRulesMixin.mobileValid")
+      .rowSC
+        span.svg-container
+          svg-icon(icon-class="user")
+        el-input(v-model="formInline.mobile" placeholder="手机")
+        .show-pwd
+    el-form-item(prop="password" :rules="formRulesMixin.isNotNull")
+      .rowSC
+        span.svg-container
+          svg-icon(icon-class="password")
+        el-input(ref="refPassword" name="password" :type="passwordType" :key="passwordType" v-model="formInline.password" @keyup.enter="handleLogin" placeholder="密码")
+        span.show-pwd(@click="showPwd")
+          svg-icon(icon-class="passwordType === 'password' ? 'eye' : 'eye-open'")
+    .tip-message {{ tipMessage }}
+    el-button.login-btn(type="primary" :loading="loading" size="medium" @click.prevent="handleLogin") 登录
 </template>
 
 <script setup>
-import { reactive, getCurrentInstance, watch, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, reactive, watch, getCurrentInstance } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { ElMessage } from 'element-plus'
 let { proxy } = getCurrentInstance()
-/**
- * form 表单数据
- */
 let formInline = reactive({
   mobile: '13800000002',
   password: '123456'
@@ -59,16 +35,11 @@ let state = reactive({
   otherQuery: {},
   redirect: undefined
 })
-
-/**
- * 监听路由变化
- */
+// 监听路由变化
 const route = useRoute()
 let getOtherQuery = query =>
   Object.keys(query).reduce((acc, cur) => {
-    if (cur !== 'redirect') {
-      acc[cur] = query[cur]
-    }
+    if (cur !== 'redirect') acc[cur] = query[cur]
     return acc
   }, {})
 watch(
@@ -82,23 +53,19 @@ watch(
   },
   { immediate: true }
 )
-
-/**
- * 请求登录 handleLogin
- */
+// 请求登录
 let loading = ref(false)
 let tipMessage = ref('')
 const store = useStore()
+const router = useRouter()
 let handleLogin = () => {
-  proxy.$refs.refloginForm.validate(async valid => {
-    if (valid) {
-      // loginReq()
+  proxy.$refs.refloginForm.validate(async vaild => {
+    if (vaild) {
       try {
-        // 开启转圈圈
         loading.value = true
         await store.dispatch('user/login', formInline)
-        ElMessage({ message: '登录成功!!!', type: 'success' })
-        proxy.$router.push({ path: state.redirect || '/', query: state.otherQuery })
+        ElMessage({ message: '登录成功', type: 'success' })
+        router.push({ path: state.redirect || '/', query: state.otherQuery })
       } catch (error) {
         tipMessage.value = error
       } finally {
@@ -109,41 +76,19 @@ let handleLogin = () => {
     }
   })
 }
-// let loginReq = () => {
-//   loading.value = true
-//   store
-//     .dispatch('user/login', formInline)
-//     .then(() => {
-//       ElMessage({ message: '登录成功', type: 'success' })
-//       proxy.$router.push({ path: state.redirect || '/', query: state.otherQuery })
-//     })
-//     .catch(res => {
-//       tipMessage.value = res.msg
-//       proxy.sleepMixin(30).then(() => {
-//         loading.value = false
-//       })
-//     })
-// }
-
-/**
- * 密码的显示和隐藏
- */
+// 密码的显示和隐藏
 let passwordType = ref('password')
 const refPassword = ref(null)
 let showPwd = () => {
-  if (passwordType.value === 'password') {
-    passwordType.value = ''
-  } else {
-    passwordType.value = 'password'
-  }
-  proxy.$nextTick(() => {
-    refPassword.value.focus()
-  })
+  if (passwordType.value === 'password') passwordType.value = ''
+  else passwordType.value = 'password'
+  proxy.$nextTick(() => refPassword.value.focus())
 }
 </script>
 
 <style lang="scss" scoped>
 $dark_gray: #889aa4;
+$light_gray: #68b0fe;
 .login-container {
   height: 100vh;
   width: 100%;
@@ -188,7 +133,6 @@ $dark_gray: #889aa4;
   text-align: center;
 }
 </style>
-
 <style lang="scss">
 //css 样式重置 增加个前缀避免全局污染
 $light_gray: #68b0fe;

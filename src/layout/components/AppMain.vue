@@ -1,13 +1,9 @@
-<template>
-  <router-view v-slot="{ Component }">
-    <transition name="fade-transform" mode="out-in">
-      <div class="app-main" :class="{ 'show-tag-view': setting.needTagsView }" :key="key">
-        <keep-alive :include="cachedViews">
-          <component :is="Component" :key="key" />
-        </keep-alive>
-      </div>
-    </transition>
-  </router-view>
+<template lang="pug">
+router-view(v-slot="{ Component }")
+  transition(name="fade-transform" mode="out-in")
+    .app-main(:class="{ 'show-tag-view': setting.needTagsView }" :key="key")
+      keep-alive(:include="cachedViews")
+        component(:is="Component" :key="key")
 </template>
 
 <script setup>

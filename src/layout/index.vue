@@ -9,11 +9,14 @@
 </template>
 
 <script setup>
+import settings from '@/settings'
+import ResizeHook from './hook/ResizeHandler'
 import { Sidebar, Navbar, AppMain, TagsView } from './components'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
-import settings from '@/settings'
+
 const store = useStore()
+
 let opened = computed(() => store.getters.sidebar.opened)
 let classObj = computed(() => {
   return {
@@ -21,8 +24,7 @@ let classObj = computed(() => {
     hideSidebar: !settings.showLeftMenu
   }
 })
-// 导入 ResizeHook 以监听打开或关闭的页面大小
-import ResizeHook from './hook/ResizeHandler'
+// 监听打开或关闭的页面大小
 ResizeHook()
 </script>
 

@@ -26,11 +26,15 @@
 import settings from '@/settings'
 import Breadcrumb from './Breadcrumb'
 import Hamburger from './Hamburger'
-import { toRefs, reactive, computed, getCurrentInstance } from 'vue'
+import { toRefs, reactive, computed } from 'vue'
 import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+
 const store = useStore()
-let { proxy } = getCurrentInstance()
+const route = useRoute()
+const router = useRouter()
+
 // 汉堡按钮开关
 const opened = computed(() => store.getters.sidebar.opened)
 const toggleSideBar = () => store.commit('app/M_toggleSideBar')
@@ -41,11 +45,14 @@ const userInfo = reactive({
   defaultImage: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80'
 })
 const { username, defaultImage } = toRefs(userInfo)
-// 注销登录
+
+/**
+ * 注销登录
+ */
 const loginOut = () => {
   store.dispatch('user/logout').then(() => {
     ElMessage({ message: '注销成功', type: 'success' })
-    proxy.$router.push(`/login?redirect=${proxy.$route.fullPath}`)
+    router.push(`/login?redirect=${route.fullPath}`)
   })
 }
 </script>

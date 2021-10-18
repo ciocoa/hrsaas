@@ -16,28 +16,34 @@
           svg-icon(icon-class="password")
         el-input(ref="refPassword" name="password" :type="passwordType" :key="passwordType" v-model="formInline.password" @keyup.enter="handleLogin" placeholder="密码")
         span.show-pwd(@click="showPwd")
-          svg-icon(icon-class="passwordType === 'password' ? 'eye' : 'eye-open'")
+          svg-icon(:icon-class="passwordType === 'password' ? 'eye' : 'eye-open'")
     .tip-message {{ tipMessage }}
     el-button.login-btn(type="primary" :loading="loading" size="medium" @click.prevent="handleLogin") 登录
 </template>
 
 <script setup>
-import { ref, reactive, watch, getCurrentInstance } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref, reactive, watch, nextTick } from 'vue'
 import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-let { proxy } = getCurrentInstance()
-let formInline = reactive({
+
+const store = useStore()
+const route = useRoute()
+const router = useRouter()
+
+const formInline = reactive({
   mobile: '13800000002',
   password: '123456'
 })
-let state = reactive({
+const state = reactive({
   otherQuery: {},
   redirect: undefined
 })
-// 监听路由变化
-const route = useRoute()
-let getOtherQuery = query =>
+
+/**
+ * 监听路由变化
+ */
+const getOtherQuery = query =>
   Object.keys(query).reduce((acc, cur) => {
     if (cur !== 'redirect') acc[cur] = query[cur]
     return acc
@@ -53,13 +59,15 @@ watch(
   },
   { immediate: true }
 )
-// 请求登录
-let loading = ref(false)
-let tipMessage = ref('')
-const store = useStore()
-const router = useRouter()
-let handleLogin = () => {
-  proxy.$refs.refloginForm.validate(async vaild => {
+
+const refloginForm = ref(null)
+const loading = ref(false)
+const tipMessage = ref('')
+/**
+ * 请求登录
+ */
+const handleLogin = () => {
+  refloginForm.value.validate(async vaild => {
     if (vaild) {
       try {
         loading.value = true
@@ -76,13 +84,16 @@ let handleLogin = () => {
     }
   })
 }
-// 密码的显示和隐藏
-let passwordType = ref('password')
+
 const refPassword = ref(null)
-let showPwd = () => {
+const passwordType = ref('password')
+/**
+ * 密码的显示和隐藏
+ */
+const showPwd = () => {
   if (passwordType.value === 'password') passwordType.value = ''
   else passwordType.value = 'password'
-  proxy.$nextTick(() => refPassword.value.focus())
+  nextTick(() => refPassword.value.focus())
 }
 </script>
 
@@ -110,14 +121,14 @@ $light_gray: #68b0fe;
   text-align: center;
   width: 30px;
 }
-//错误提示信息
+// 错误提示信息
 .tip-message {
   color: #e4393c;
   height: 30px;
   margin-top: -12px;
   font-size: 12px;
 }
-//登录按钮
+// 登录按钮
 .login-btn {
   width: 100%;
   height: 48px;
@@ -134,7 +145,7 @@ $light_gray: #68b0fe;
 }
 </style>
 <style lang="scss">
-//css 样式重置 增加个前缀避免全局污染
+// css 样式重置 增加个前缀避免全局污染
 $light_gray: #68b0fe;
 .login-container {
   .el-form-item {
@@ -152,7 +163,7 @@ $light_gray: #68b0fe;
     -webkit-appearance: none;
     border-radius: 0px;
     padding: 10px 5px 9px 15px;
-    height: 48px; //此处调整item的高度
+    height: 48px; // 此处调整item的高度
     color: $light_gray;
     caret-color: $light_gray;
     font-size: 16px;

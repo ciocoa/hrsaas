@@ -8,19 +8,13 @@
 </template>
 
 <script setup>
-import { toRefs, reactive } from 'vue'
-import setting from '@/settings'
+import logo from '@/assets/common/logo.png'
 defineProps({
   collapse: {
     type: Boolean,
     required: true
   }
 })
-const state = reactive({
-  title: setting.title,
-  logo: 'src/assets/common/logo.png'
-})
-let { logo } = toRefs(state)
 </script>
 
 <style lang="scss" scoped>
@@ -39,8 +33,8 @@ let { logo } = toRefs(state)
 .sidebar-logo-container {
   position: relative;
   width: 100%;
-  height: 64px;
-  line-height: 64px;
+  height: 82px;
+  line-height: 82px;
   text-align: center;
   overflow: hidden;
   & .sidebar-logo-link {
@@ -55,8 +49,8 @@ let { logo } = toRefs(state)
   &.collapse {
     .sidebar-logo {
       margin-right: 0;
-      width: 32px;
-      height: 32px;
+      width: 41px;
+      height: 41px;
     }
   }
 }

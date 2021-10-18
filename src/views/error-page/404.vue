@@ -17,7 +17,7 @@
 
 <script setup>
 import { computed } from 'vue'
-let message = computed(() => 'The webmaster said that you can not enter this page...')
+const message = computed(() => 'The webmaster said that you can not enter this page...')
 </script>
 
 <style lang="scss" scoped>

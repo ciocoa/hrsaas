@@ -1,32 +1,33 @@
 <template lang="pug">
 #Sidebar
   logo(:collapse="!isCollapse" v-if="settings.sidebarLogo")
-  el-scrollbar(wrap-class="scrollbar-wrapper reset-menu-style")
+  el-scrollbar.scrollbar-wrapper
     el-menu(mode="vertical" :active-text-color="variables.menuActiveText" :text-color="variables.menuText" :background-color="variables.menuBg" :collapse-transition="false" :default-active="activeMenu" :collapse="!isCollapse" :unique-opened="false")
       sidebar-item(v-for="route in routes" :key="route.path" :item="route" :base-path="route.path")
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import settings from '@/settings'
 import Logo from './Logo'
 import SidebarItem from './SidebarItem'
-//导入配置文件
-import settings from '@/settings'
-import { useRoute } from 'vue-router'
+import { computed } from 'vue'
 import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
+
 const store = useStore()
 const route = useRoute()
-let routes = computed(() => store.state.permission.routes)
+
+const routes = computed(() => store.getters.routes)
 const isCollapse = computed(() => store.getters.sidebar.opened)
 const variables = computed(() => {
   return {
     menuText: '#fff',
-    menuActiveText: '#409EFF',
-    subMenuActiveText: '#f4f4f5',
+    menuActiveText: '#74d68c',
+    subMenuActiveText: '#dbad14',
     menuBg: 'transparent',
-    menuHover: '#263445',
+    menuHover: '#43a7fe',
     subMenuBg: '#1f2d3d',
-    subMenuHover: '#001528',
+    subMenuHover: '#43a7fe',
     sideBarWidth: '210px'
   }
 })
@@ -38,36 +39,13 @@ const activeMenu = computed(() => {
 })
 </script>
 
-<style lang="scss">
-.reset-menu-style {
-  background: url('@/assets/common/leftnavBg.png') no-repeat 0 100%;
+<style lang="scss" scoped>
+.scrollbar-wrapper {
+  background: url('@/assets/common/leftnavBg.png') no-repeat 0% 90%;
   .el-menu {
     border: none;
     height: 100%;
     width: 100% !important;
-    a {
-      li {
-        .svg-icon {
-          color: #fff;
-          font-size: 18px;
-          vertical-align: middle;
-          .icon {
-            color: #fff;
-          }
-        }
-        span {
-          color: #fff;
-        }
-        &:hover {
-          .svg-icon {
-            color: #43a7fe;
-          }
-          span {
-            color: #43a7fe;
-          }
-        }
-      }
-    }
   }
 }
 </style>

@@ -1,7 +1,6 @@
-<template>
-  <svg :class="svgClass" aria-hidden="true">
-    <use :xlink:href="iconName" />
-  </svg>
+<template lang="pug">
+svg(:class="svgClass" aria-hidden="true")
+  use(:xlink:href="iconName")
 </template>
 
 <script>
@@ -35,7 +34,7 @@ export default defineComponent({
 })
 </script>
 
-<style scope>
+<style>
 .sub-el-icon,
 .nav-icon {
   display: inline-block;
@@ -43,7 +42,6 @@ export default defineComponent({
   margin-right: 12px;
   position: relative;
 }
-
 .svg-icon {
   width: 1em;
   height: 1em;

@@ -8,19 +8,18 @@ router-view(v-slot="{ Component }")
 
 <script setup>
 import setting from '@/settings'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 
-import { getCurrentInstance, computed } from 'vue'
-let { proxy } = getCurrentInstance()
+const store = useStore()
+const route = useRoute()
 
-const key = computed(() => {
-  return proxy.$route.path
-})
-const cachedViews = computed(() => {
-  return proxy.$store.state.app.cachedViews
-})
+const key = computed(() => route.path)
+const cachedViews = computed(() => store.state.app.cachedViews)
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .app-main {
   padding: 10px;
   /*50 = navbar  */

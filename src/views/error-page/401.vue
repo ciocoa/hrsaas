@@ -1,56 +1,49 @@
-<template>
-  <div class="errPage-container">
-    <el-button icon="el-icon-arrow-left" class="pan-back-btn" @click="back">返回</el-button>
-    <el-row>
-      <el-col :span="12">
-        <h1 class="text-jumbo text-ginormous">Oops!</h1>
-        gif来源
-        <a href="https://zh.airbnb.com/" target="_blank">airbnb</a>
-        页面
-        <h2>你没有权限去该页面</h2>
-        <h6>如有不满请联系你领导</h6>
-        <ul class="list-unstyled">
-          <li>或者你可以去:</li>
-          <li class="link-type">
-            <router-link to="/dashboard">回首页</router-link>
-          </li>
-          <li class="link-type">
-            <a href="https://www.taobao.com/">随便看看</a>
-          </li>
-          <li><a href="#" @click.prevent="dialogVisible = true">点我看图</a></li>
-        </ul>
-      </el-col>
-      <el-col :span="12">
-        <img :src="errGif" width="313" height="428" alt="Girl has dropped her ice cream." />
-      </el-col>
-    </el-row>
-    <el-dialog v-model="dialogVisible" title="随便看">
-      <img :src="ewizardClap" class="pan-img" />
-    </el-dialog>
-  </div>
+<template lang="pug">
+.errPage-container
+  el-button.pan-back-btn(icon="el-icon-arrow-left" @click="back") 返回
+  el-row
+    el-col(:span="12")
+      h1.text-jumbo.text-ginormous Oops!
+      h3 当前无权访问，联系管理员，或者你可以
+      ul.list-unstyled
+        li.link-type
+          router-link(to="/dashboard") 回到首页
+        li.link-type
+          a(href="https://www.taobao.com/") 随便看看
+        li.link-type
+          a(href="#" @click.prevent="dialogVisible = true") 点我看图
+        li.link-type
+          a(href="https://zh.airbnb.com/" target="_blank") 说走就走
+    el-col(:span="12")
+      img(:src="errGif" width="313" height="428" alt="Girl has dropped her ice cream.")
+  el-dialog(v-model="dialogVisible" title="随便看")
+    img(:src="ewizardClap" class="pan-img")
 </template>
 
 <script setup>
 import errGif from '@/assets/401_images/401.gif'
-import { getCurrentInstance, toRefs, reactive } from 'vue'
+import { toRefs, reactive } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-let { proxy } = getCurrentInstance()
+const route = useRoute()
+const router = useRouter()
 
 const state = reactive({
   errGif: errGif + '?' + +new Date(),
   ewizardClap: 'https://wpimg.wallstcn.com/007ef517-bafd-4066-aae4-6883632d9646',
   dialogVisible: false
 })
-
+/**
+ * 返回
+ */
 const back = () => {
-  if (proxy.$route.query.noGoBack) {
-    proxy.$router.push({ path: '/dashboard' })
+  if (route.query.noGoBack) {
+    router.push({ path: '/dashboard' })
   } else {
-    proxy.$router.go(-1)
+    router.go(-1)
   }
 }
-//导出属性到页面中使用
-let { ewizardClap, dialogVisible } = toRefs(state)
+const { ewizardClap, dialogVisible } = toRefs(state)
 </script>
 
 <style lang="scss" scoped>
@@ -58,6 +51,10 @@ let { ewizardClap, dialogVisible } = toRefs(state)
   width: 800px;
   max-width: 100%;
   margin: 100px auto;
+  h1,
+  h3 {
+    margin-top: 20px;
+  }
   .pan-back-btn {
     background: #008489;
     color: #fff;

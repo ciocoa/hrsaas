@@ -12,8 +12,8 @@ el-row(justify="space-between" align="middle" style="height: 40px; width: 100%")
           template(#dropdown)
             el-dropdown-menu
               el-dropdown-item(command="add") 添加子部门
-              el-dropdown-item(command="edit" v-if="!isRoot") 编辑子部门
-              el-dropdown-item(command="del" v-if="!isRoot") 删除子部门
+              el-dropdown-item(command="edit" v-if="!isRoot") 编辑部门
+              el-dropdown-item(command="del" v-if="!isRoot") 删除部门
 </template>
 <script setup>
 import { delDepartments } from '@/api/departments'
@@ -28,10 +28,11 @@ const props = defineProps({
     default: false
   }
 })
-const emit = defineEmits(['delDepts'])
+const emit = defineEmits(['delDepts', 'addDepts'])
 const operateDepts = type => {
   if (type === 'add') {
     // 添加
+    emit('addDepts', props.treeNode)
   } else if (type === 'edit') {
     // 编辑
   } else {

@@ -5,11 +5,6 @@ template(v-if="!item.hidden")
       el-menu-item(:index="resolvePath(onlyOneChild.path)" :class="{ 'submenu-title-noDropdown': !isNest }")
         Item(:icon="onlyOneChild.meta?.icon || item.meta?.icon")
         template(#title) {{ onlyOneChild.meta?.title }}
-  el-sub-menu(v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body)
-    template(#title)
-      Item(v-if="item.meta" :icon="item.meta && item.meta.icon")
-      span {{ item.meta.title }}
-    sidebar-item(v-for="child in item.children" :base-path="resolvePath(child.path)" :item="child" :key="child.path" :is-nest="true")
 </template>
 
 <script setup>

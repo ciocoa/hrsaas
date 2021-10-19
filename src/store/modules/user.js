@@ -32,8 +32,10 @@ const actions = {
   },
   async getUserInfo(context) {
     const baseResult = await getUserInfo()
-    const baseInfo = getUserDetailById(baseResult.userId)
-    const result = { ...baseResult, ...baseInfo }
+    // 获取用户头像，API 失效，暂时注释
+    // const baseInfo = getUserDetailById(baseResult.userId)
+    // const result = { ...baseResult, ...baseInfo }
+    const result = baseResult
     context.commit('setUserInfo', result)
     return result
   },

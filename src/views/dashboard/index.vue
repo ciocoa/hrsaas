@@ -1,5 +1,5 @@
 <template lang="pug">
-.dashboard-container
+.dashboard-container 首页
   .dashboard-text name:::::: {{ username }}
 </template>
 

@@ -10,11 +10,21 @@ export const getDepartments = () =>
   })
 
 /***
- * 请求删除部门
+ * 删除部门
  */
 export const delDepartments = id => {
   request({
     url: `/company/department/${id}`,
     method: 'DELETE'
+  })
+}
+
+/**
+ * 新增部门
+ */
+export const addDepartments = data => {
+  request({
+    url: '/company/department',
+    data
   })
 }

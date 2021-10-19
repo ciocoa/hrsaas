@@ -1,5 +1,5 @@
 /**
- * 列表数据转为树型数据
+ * 列表数据转为树形数据
  * @param {Array} list 列表数据
  * @param {String} value 初始匹配的 ID
  */

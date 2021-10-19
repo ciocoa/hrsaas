@@ -4,23 +4,24 @@
     tree-tools(:tree-node="company" :is-root="true")
     el-tree(:data="data" :props="props" default-expand-all)
       template(#default="{data}")
-        tree-tools(:tree-node="data")
+        tree-tools(:tree-node="data" @delDepts="refreshDepartments")
 </template>
 
 <script setup>
 import TreeTools from './components/TreeTools'
 import { tranListToTree } from '@/utils/toTree'
 import { getDepartments } from '@/api/departments'
-import { reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 
 const props = reactive({ label: 'name' })
 const company = reactive({ name: '', manager: '负责人' })
-const data = reactive([])
-onMounted(async () => {
+const data = ref(null)
+const refreshDepartments = async () => {
   const result = await getDepartments()
   company.name = result.companyName
-  data.push(...tranListToTree(result.depts, ''))
-})
+  data.value = [...tranListToTree(result.depts, '')]
+}
+onMounted(refreshDepartments())
 </script>
 
 <style lang="scss" scoped>

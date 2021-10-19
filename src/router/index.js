@@ -37,11 +37,11 @@ const router = createRouter({
   routes: constantRoutes
 })
 
-export function resetRouter() {
+export const resetRouter = () => {
   const newRouter = createRouter({
     history: createWebHashHistory(),
     scrollBehavior: () => ({ top: 0 }),
-    routes: constantRoutes
+    routes: [...constantRoutes, ...asyncRoutes]
   })
   router.matcher = newRouter.matcher // reset router
 }

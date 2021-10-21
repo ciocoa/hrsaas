@@ -2,28 +2,31 @@ import request from '@/utils/request'
 
 /**
  * 请求登录
- * @param {*} data 请求体
+ * @param {Object} data 登录的请求体
  * @returns
  */
 export const loginReq = data =>
   request({
     url: '/sys/login',
-    data
+    data,
+    bfLoading: true
   })
+
 /**
  * 请求用户信息
- * @returns Promise
+ * @returns
  */
 export const getUserInfo = () =>
   request({
     url: '/sys/profile'
   })
+
 /**
  * 请求用户头像
- * @param {number} id 用户ID
+ * @param {String} id 需要获取头像的用户ID
+ * @returns
  */
-export const getUserDetailById = id => {
+export const getUserDetailById = id =>
   request({
     url: `/sys/user/${id}`
   })
-}

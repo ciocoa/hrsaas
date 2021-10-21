@@ -28,13 +28,14 @@ const props = defineProps({
     default: false
   }
 })
-const emit = defineEmits(['delDepts', 'addDepts'])
+const emit = defineEmits(['delDepts', 'addDepts', 'editDepts'])
 const operateDepts = type => {
   if (type === 'add') {
     // 添加
     emit('addDepts', props.treeNode)
   } else if (type === 'edit') {
     // 编辑
+    emit('editDepts', props.treeNode)
   } else {
     // 删除
     ElMessageBox.confirm('确定要删除该部门吗？')

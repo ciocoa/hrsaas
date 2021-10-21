@@ -76,7 +76,7 @@ export default ({ url, data, method, isParams, bfLoading, isAlertErrorMsg, baseU
     data: data ?? {},
     method: method ?? 'POST',
     isParams: isParams ?? false,
-    bfLoading: bfLoading ?? true,
+    bfLoading: bfLoading ?? false,
     isAlertErrorMsg: isAlertErrorMsg ?? true,
     baseURL: baseURL ?? import.meta.env.VITE_APP_BASE_URL
   })

@@ -2,29 +2,56 @@ import request from '@/utils/request'
 
 /**
  * 请求组织架构
+ * @returns
  */
 export const getDepartments = () =>
   request({
     url: '/company/department',
-    method: 'GET'
+    method: 'GET',
+    bfLoading: true
   })
 
-/***
+/**
  * 删除部门
+ * @param {String} id 需要删除的部门ID
+ * @returns
  */
-export const delDepartments = id => {
+export const delDepartments = id =>
   request({
     url: `/company/department/${id}`,
     method: 'DELETE'
   })
-}
 
 /**
  * 新增部门
+ * @param {Object} data 新增部门的数据
+ * @returns
  */
-export const addDepartments = data => {
+export const addDepartments = data =>
   request({
     url: '/company/department',
     data
   })
-}
+
+/**
+ * 获取部门详情
+ * @param {String} id 需要查询的部门ID
+ * @returns
+ */
+export const getDepartDetail = id =>
+  request({
+    url: `/company/department/${id}`,
+    method: 'GET'
+  })
+
+/**
+ * 编辑部门
+ * @param {Object} data 部门的详细数据
+ * @returns
+ */
+export const updateDepartments = data =>
+  request({
+    url: `/company/department/${data.id}`,
+    method: 'PUT',
+    data
+  })

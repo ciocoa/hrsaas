@@ -4,9 +4,9 @@
     tree-tools(:tree-node="company" @addDepts="addDepts" :is-root="true")
     el-tree(:data="data" :props="props" default-expand-all)
       template(#default="{data}")
-        tree-tools(:tree-node="data" @addDepts="addDepts" @delDepts="refreshDepartments")
+        tree-tools(:tree-node="data" @addDepts="addDepts" @editDepts="editDepts" @delDepts="refreshDepartments")
     //- vue3 v-model 替代 .sync
-    add-dept(v-model:show-dialog="deptsNode.showDialog" :tree-node="deptsNode.node" @addDepts="refreshDepartments")
+    add-dept(ref="addDeptRef" v-model:show-dialog="deptsNode.showDialog" :tree-node="deptsNode.node" @addDepts="refreshDepartments")
 </template>
 
 <script setup>
@@ -25,9 +25,16 @@ const deptsNode = reactive({
   showDialog: false
 })
 
+const addDeptRef = ref(null)
+
 const addDepts = node => {
   deptsNode.showDialog = true
   deptsNode.node = node
+}
+const editDepts = node => {
+  deptsNode.showDialog = true
+  deptsNode.node = node
+  addDeptRef.value.refreshDepartDetail(node.id)
 }
 
 /**

@@ -13,13 +13,14 @@ el-dialog(:title="showTitle" v-model="showDialog" @close="btnCancel")
   template(#footer)
     el-row(justify="center")
       el-col(:span="8")
-        el-button(type="primary" size="small" @click="btnOK") 确定
-        el-button(size="small" @click="btnCancel") 取消
+        el-button(@click="btnOK" size="small" type="primary") 确定
+        el-button(@click="btnCancel" size="small") 取消
 </template>
 <script setup>
 import { getDepartments, addDepartments, updateDepartments, getDepartDetail } from '@/api/departments'
 import { getEmployeeSimple } from '@/api/employees'
 import { ref, reactive, computed } from 'vue'
+import { ElMessage } from 'element-plus'
 const props = defineProps({
   showDialog: {
     type: Boolean,
@@ -108,6 +109,7 @@ const btnOK = () => {
       if (formData.data.id) await updateDepartments(formData.data)
       else await addDepartments({ ...formData.data, pid: props.treeNode.id })
       emit('addDepts')
+      ElMessage({ message: '操作成功', type: 'success' })
       emit('update:showDialog', false)
     }
   })

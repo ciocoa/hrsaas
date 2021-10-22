@@ -14,17 +14,11 @@ import ResizeHook from './hook/ResizeHandler'
 import { Sidebar, Navbar, AppMain, TagsView } from './components'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
-
 const store = useStore()
-
-let opened = computed(() => store.getters.sidebar.opened)
-let classObj = computed(() => {
-  return {
-    closeSidebar: !opened.value,
-    hideSidebar: !settings.showLeftMenu
-  }
+const opened = computed(() => store.getters.sidebar.opened)
+const classObj = computed(() => {
+  return { closeSidebar: !opened.value, hideSidebar: !settings.showLeftMenu }
 })
-// 监听打开或关闭的页面大小
 ResizeHook()
 </script>
 

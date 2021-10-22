@@ -2,6 +2,7 @@ import { onBeforeMount, onMounted, onBeforeUnmount } from 'vue'
 import store from '@/store'
 const { body } = document
 const WIDTH = 992
+
 export default () => {
   const $_isMobile = () => {
     const rect = body.getBoundingClientRect()
@@ -10,33 +11,22 @@ export default () => {
   const $_resizeHandler = () => {
     if (!document.hidden) {
       const isMobile = $_isMobile()
-      // console.log('toggleDevice')
       // store.dispatch('app/toggleDevice', isMobile ? 'mobile' : 'desktop')
+      // 根据 window 尺寸开关 sideBar
       if (isMobile) {
-        // console.log('closeSideBar')
         // store.dispatch('app/closeSideBar', { withoutAnimation: true })
-        /*此处只做根据window尺寸关闭sideBar功能*/
         store.commit('app/M_sidebar_opened', false)
-      } else {
-        store.commit('app/M_sidebar_opened', true)
-      }
+      } else store.commit('app/M_sidebar_opened', true)
     }
   }
-  onBeforeMount(() => {
-    // console.log('添加了监听')
-    window.addEventListener('resize', $_resizeHandler)
-  })
+  onBeforeMount(() => window.addEventListener('resize', $_resizeHandler))
   onMounted(() => {
     const isMobile = $_isMobile()
     if (isMobile) {
       store.commit('app/M_sidebar_opened', false)
       // store.dispatch('app/toggleDevice', 'mobile')
       // store.dispatch('app/closeSideBar', { withoutAnimation: true })
-    } else {
-      store.commit('app/M_sidebar_opened', true)
-    }
+    } else store.commit('app/M_sidebar_opened', true)
   })
-  onBeforeUnmount(() => {
-    window.removeEventListener('resize', $_resizeHandler)
-  })
+  onBeforeUnmount(() => window.removeEventListener('resize', $_resizeHandler))
 }

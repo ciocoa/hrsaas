@@ -1,42 +1,37 @@
 <template lang="pug">
 el-card.tree-card
-  tree-tools(:tree-node="company" @addDepts="addDepts" :is-root="true")
-  el-tree(:data="data" :props="props" default-expand-all)
-    template(#default="{data}")
-      tree-tools(:tree-node="data" @addDepts="addDepts" @editDepts="editDepts" @delDepts="refreshDepartments")
+  tree-tools(:tree-data="company" @addDepts="addDepts" :is-root="true")
+  el-tree(:data="deptsData.data" :props="{ label: 'name' }" default-expand-all)
+    template(#default="{ data }")
+      tree-tools(:tree-data="data" @addDepts="addDepts" @editDepts="editDepts" @delDepts="refDepartments")
   //- vue3 v-model 替代 .sync
-  add-dept(ref="addDeptRef" v-model:show-dialog="deptsNode.showDialog" :tree-node="deptsNode.node" @addDepts="refreshDepartments")
+  dept-panel(ref="deptPanelRef" v-model:show-dialog="deptsData.showDialog" :tree-node="deptsData.node" @addDepts="refDepartments")
 </template>
 
 <script setup>
-import AddDept from './components/AddDept'
+import DeptPanel from './components/DeptPanel'
 import TreeTools from './components/TreeTools'
 import { tranListToTree } from '@/utils/toTree'
 import { getDepartments } from '@/api/departments'
 import { ref, reactive, onMounted } from 'vue'
-const props = reactive({ label: 'name' })
-const company = reactive({ name: '', manager: '负责人', id: '' })
-const data = ref(null)
-const deptsNode = reactive({
-  showDialog: false,
-  node: {}
-})
-const addDeptRef = ref(null)
+const company = reactive({ id: '', name: '', manager: '负责人' })
+const deptsData = reactive({ showDialog: false, data: [], node: {} })
+const deptPanelRef = ref(null)
 const addDepts = node => {
-  deptsNode.showDialog = true
-  deptsNode.node = node
+  deptsData.showDialog = true
+  deptsData.node = node
 }
 const editDepts = node => {
-  deptsNode.showDialog = true
-  deptsNode.node = node
-  addDeptRef.value.refreshDepartDetail(node.id)
+  deptsData.showDialog = true
+  deptsData.node = node
+  deptPanelRef.value.refDepartDetail(node.id)
 }
-const refreshDepartments = async () => {
-  const result = await getDepartments()
-  company.name = result.companyName
-  data.value = [...tranListToTree(result.depts, '')]
+const refDepartments = async () => {
+  const { companyName, depts } = await getDepartments()
+  company.name = companyName
+  deptsData.data = [...tranListToTree(depts, '')]
 }
-onMounted(refreshDepartments())
+onMounted(refDepartments())
 </script>
 
 <style lang="scss" scoped>

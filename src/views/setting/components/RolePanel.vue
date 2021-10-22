@@ -1,6 +1,6 @@
 <template lang="pug">
 el-dialog(:title="showTitle" v-model="showDialog" @close="btnCancel")
-  el-form(ref="roleRef" :model="formData.data" :rules="rules" label-width="120px")
+  el-form(ref="roleFormRef" :model="formData.data" :rules="rules" label-width="120px")
     el-form-item(label="角色名称" prop="name")
       el-input(v-model="formData.data.name" style="width: 80%")
     el-form-item(label="角色描述")
@@ -16,7 +16,7 @@ el-dialog(:title="showTitle" v-model="showDialog" @close="btnCancel")
 import { getRoleList, getRoleDetail, addRole, updateRole } from '@/api/setting'
 import { ref, reactive, computed } from 'vue'
 import { ElMessage } from 'element-plus'
-const roleRef = ref(null)
+const roleFormRef = ref(null)
 defineProps({ showDialog: { type: Boolean, default: false } })
 const formData = reactive({ data: { id: '', name: '', description: '' } })
 const checkRoleName = async (rule, value, callback) => {
@@ -38,19 +38,19 @@ const refRoleDetail = async id => (formData.data = await getRoleDetail(id))
 defineExpose({ refRoleDetail })
 const btnOK = async () => {
   try {
-    await roleRef.value.validate()
+    await roleFormRef.value.validate()
     if (formData.data.id) await updateRole(formData.data)
     else await addRole(formData.data)
     emit('refreshRole')
     ElMessage({ message: '操作成功', type: 'success' })
     emit('update:showDialog', false)
   } catch (error) {
-    console.log(`角色信息操作错误：${error}`)
+    console.log(`操作错误：${error}`)
   }
 }
 const btnCancel = () => {
   formData.data = { id: '', name: '', description: '' }
-  roleRef.value.resetFields()
+  roleFormRef.value.resetFields()
   emit('update:showDialog', false)
 }
 </script>

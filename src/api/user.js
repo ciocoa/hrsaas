@@ -8,8 +8,7 @@ import request from '@/utils/request'
 export const loginReq = data =>
   request({
     url: '/sys/login',
-    data,
-    bfLoading: true
+    data
   })
 
 /**

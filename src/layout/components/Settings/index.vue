@@ -1,29 +1,19 @@
-<template>
-  <RightPanel>
-    <div class="drawer-container">
-      <div>
-        <h3 class="drawer-title">Page style setting</h3>
-        <div class="drawer-item">
-          <span>Theme Color</span>
-          <!--          <theme-picker style="float: right; height: 26px; margin: -3px 8px 0 0" @change="themeChange" />-->
-        </div>
-        <div class="drawer-item">
-          <span>Open Tags-View</span>
-          <el-switch v-model="tagsView" class="drawer-switch" />
-        </div>
-
-        <div class="drawer-item">
-          <span>Fixed Header</span>
-          <el-switch v-model="fixedHeader" class="drawer-switch" />
-        </div>
-
-        <div class="drawer-item">
-          <span>Sidebar Logo</span>
-          <el-switch v-model="sidebarLogo" class="drawer-switch" />
-        </div>
-      </div>
-    </div>
-  </RightPanel>
+<template lang="pug">
+right-panel
+  .drawer-container
+    div
+      h3.drawer-title Page style setting
+      .drawer-item
+        span Theme Color
+      .drawer-item
+        span Open Tags-View
+        el-switch.drawer-switch(v-model="tagsView")
+      .drawer-item
+        span Fixed Header
+        el-switch.drawer-switch(v-model="fixedHeader")
+      .drawer-item
+        span Sidebar Logo
+        el-switch.drawer-switch(v-model="sidebarLogo")
 </template>
 
 <script>
@@ -85,20 +75,17 @@ export default {
   font-size: 14px;
   line-height: 1.5;
   word-wrap: break-word;
-
   .drawer-title {
     margin-bottom: 12px;
     color: rgba(0, 0, 0, 0.85);
     font-size: 14px;
     line-height: 22px;
   }
-
   .drawer-item {
     color: rgba(0, 0, 0, 0.65);
     font-size: 14px;
     padding: 12px 0;
   }
-
   .drawer-switch {
     float: right;
   }

@@ -1,22 +1,26 @@
 <template lang="pug">
 page-tools(:show-before="true")
   template(#before)
-    span 共166条记录
+    span 共{{tableData.pages.total}}条记录
   template(#after)
     el-button(size="small" type="warning") 导入
     el-button(size="small" type="danger") 导出
     el-button(size="small" type="primary") 新增员工
-el-card
-  el-table(border)
-    el-table-column(label="序号" sortable)
-    el-table-column(label="姓名" sortable)
-    el-table-column(label="工号" sortable)
-    el-table-column(label="聘用形式" sortable)
-    el-table-column(label="部门" sortable)
-    el-table-column(label="入职时间" sortable)
-    el-table-column(label="账户状态" sortable)
-    el-table-column(label="操作" sortable fixed="right" width="280")
-      template
+el-card(v-loading="tableData.loading")
+  el-table(border :data="tableData.rows")
+    el-table-column(sortable align="center" label="序号" type="index")
+    el-table-column(sortable align="center" label="姓名" prop="username")
+    el-table-column(sortable align="center" label="手机号" prop="mobile")
+    el-table-column(sortable align="center" label="工号" prop="workNumber")
+    el-table-column(sortable align="center" label="聘用形式" prop="formOfEmployment" :formatter="employmentFormat")
+    el-table-column(sortable align="center" label="部门" prop="departmentName")
+    el-table-column(sortable align="center" label="入职时间" prop="timeOfEntry" :formatter="timeOfEntryFormat")
+    el-table-column(sortable align="center" label="是否在职" prop="inServiceStatus" :formatter="inServiceFormat")
+    el-table-column(sortable align="center" label="状态" prop="enableState")
+      template(#default="{row}")
+        el-switch(:value="row.enableState === 1")
+    el-table-column(sortable align="center" label="操作"  fixed="right" width="280")
+      template(#default)
         el-button(type="text" size="small") 查看
         el-button(type="text" size="small") 转正
         el-button(type="text" size="small") 调岗
@@ -24,9 +28,38 @@ el-card
         el-button(type="text" size="small") 角色
         el-button(type="text" size="small") 删除
   el-row(justify="center" align="middle" style="height: 60px")
-    el-pagination(:current-page="1" :page-size="5" :total="6" layout="prev, pager, next" background)
+    el-pagination(@current-change="changePage" :current-page="tableData.pages.page" :page-size="tableData.pages.size" :total="tableData.pages.total" layout="prev, pager, next" background)
 </template>
 
-<script setup></script>
-
-<style lang="scss" scoped></style>
+<script setup>
+import { formatDate } from '@/utils/filters'
+import { getEmployeeList } from '@/api/employees'
+import EmployeeEnum from '@/api/constant/employees'
+import { reactive, onMounted } from 'vue'
+const tableData = reactive({
+  loading: false,
+  rows: [],
+  pages: { page: 1, size: 10, total: 0 }
+})
+const changePage = newPage => {
+  tableData.pages.page = newPage
+  refEmployeeList()
+}
+const refEmployeeList = async () => {
+  tableData.loading = true
+  const { total, rows } = await getEmployeeList(tableData.pages)
+  tableData.pages.total = total
+  tableData.rows = rows
+  tableData.loading = false
+}
+onMounted(refEmployeeList())
+const employmentFormat = (row, column, cellValue, index) => {
+  const obj = EmployeeEnum.hireType.find(item => item.id === cellValue)
+  return obj ? obj.value : '未知'
+}
+const timeOfEntryFormat = (row, column, cellValue, index) => formatDate(cellValue)
+const inServiceFormat = (row, column, cellValue, index) => {
+  const obj = EmployeeEnum.workingState.find(item => item.id === cellValue)
+  return obj ? obj.value : '未知'
+}
+</script>

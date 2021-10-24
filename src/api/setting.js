@@ -7,8 +7,7 @@ import request from '@/utils/request'
  */
 export const getCompanyInfo = id =>
   request({
-    url: `/company/${id}`,
-    method: 'GET'
+    url: `/company/${id}`
   })
 
 /**
@@ -19,9 +18,7 @@ export const getCompanyInfo = id =>
 export const getRoleList = param =>
   request({
     url: '/sys/role',
-    method: 'GET',
-    param,
-    bfLoading: true
+    param
   })
 
 /**
@@ -32,6 +29,7 @@ export const getRoleList = param =>
 export const addRole = data =>
   request({
     url: '/sys/role',
+    method: 'post',
     data
   })
 
@@ -43,7 +41,7 @@ export const addRole = data =>
 export const updateRole = data =>
   request({
     url: `/sys/role/${data.id}`,
-    method: 'PUT',
+    method: 'put',
     data
   })
 
@@ -54,8 +52,7 @@ export const updateRole = data =>
  */
 export const getRoleDetail = id =>
   request({
-    url: `/sys/role/${id}`,
-    method: 'GET'
+    url: `/sys/role/${id}`
   })
 
 /**

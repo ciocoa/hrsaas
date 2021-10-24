@@ -1,11 +1,11 @@
 import { loginReq, getUserInfo, getUserDetailById } from '@/api/user'
 import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
-// 状态
+
 const state = {
   token: getToken(),
   userInfo: {}
 }
-// 修改状态
+
 const mutations = {
   setToken(state, token) {
     state.token = token
@@ -23,7 +23,7 @@ const mutations = {
     state.userInfo = {}
   }
 }
-// 执行异步
+
 const actions = {
   async login(context, data) {
     const result = await loginReq(data)
@@ -31,13 +31,10 @@ const actions = {
     setTimeStamp()
   },
   async getUserInfo(context) {
-    const baseResult = await getUserInfo()
-    // 获取用户头像，API 失效，暂时注释
-    // const baseInfo = getUserDetailById(baseResult.userId)
-    // const result = { ...baseResult, ...baseInfo }
-    const result = baseResult
-    context.commit('setUserInfo', result)
-    return result
+    const base = await getUserInfo()
+    const info = getUserDetailById(base.userId)
+    context.commit('setUserInfo', { ...base, ...info })
+    return { ...base, ...info }
   },
   logout(context) {
     context.commit('removeToken')

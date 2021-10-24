@@ -26,10 +26,9 @@ import settings from '@/settings'
 import Hamburger from './Hamburger'
 import { toRefs, reactive, computed } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 const store = useStore()
-const route = useRoute()
 const router = useRouter()
 // 汉堡按钮开关
 const opened = computed(() => store.getters.sidebar.opened)
@@ -40,11 +39,11 @@ const userInfo = reactive({
   staffPhoto: computed(() => store.getters.userInfo.staffPhoto),
   defaultImage: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80'
 })
-const { username, defaultImage } = toRefs(userInfo)
+const { username, staffPhoto, defaultImage } = toRefs(userInfo)
 const loginOut = () => {
   store.dispatch('user/logout').then(() => {
     ElMessage({ message: '注销成功', type: 'success' })
-    router.push(`/login?redirect=${route.fullPath}`)
+    router.push('/login')
   })
 }
 </script>

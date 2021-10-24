@@ -8,6 +8,7 @@ import request from '@/utils/request'
 export const loginReq = data =>
   request({
     url: '/sys/login',
+    method: 'post',
     data
   })
 
@@ -17,7 +18,8 @@ export const loginReq = data =>
  */
 export const getUserInfo = () =>
   request({
-    url: '/sys/profile'
+    url: '/sys/profile',
+    method: 'post'
   })
 
 /**
@@ -28,4 +30,5 @@ export const getUserInfo = () =>
 export const getUserDetailById = id =>
   request({
     url: `/sys/user/${id}`
+    // params: { id: id }
   })

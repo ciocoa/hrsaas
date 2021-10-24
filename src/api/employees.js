@@ -6,6 +6,11 @@ import request from '@/utils/request'
  */
 export const getEmployeeSimple = () =>
   request({
-    url: '/sys/user/simple',
-    method: 'GET'
+    url: '/sys/user/simple'
+  })
+
+export const getEmployeeList = params =>
+  request({
+    url: '/sys/user',
+    params
   })

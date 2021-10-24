@@ -6,20 +6,18 @@ import request from '@/utils/request'
  */
 export const getDepartments = () =>
   request({
-    url: '/company/department',
-    method: 'GET',
-    bfLoading: true
+    url: '/company/department'
   })
 
 /**
  * 删除部门
- * @param {String} id 需要删除的部门ID
+ * @param {String} id 删除的部门的ID
  * @returns
  */
 export const delDepartments = id =>
   request({
     url: `/company/department/${id}`,
-    method: 'DELETE'
+    method: 'delete'
   })
 
 /**
@@ -30,18 +28,18 @@ export const delDepartments = id =>
 export const addDepartments = data =>
   request({
     url: '/company/department',
+    method: 'post',
     data
   })
 
 /**
  * 获取部门详情
- * @param {String} id 需要查询的部门ID
+ * @param {String} id 查询的部门的ID
  * @returns
  */
 export const getDepartDetail = id =>
   request({
-    url: `/company/department/${id}`,
-    method: 'GET'
+    url: `/company/department/${id}`
   })
 
 /**
@@ -52,6 +50,6 @@ export const getDepartDetail = id =>
 export const updateDepartments = data =>
   request({
     url: `/company/department/${data.id}`,
-    method: 'PUT',
+    method: 'put',
     data
   })

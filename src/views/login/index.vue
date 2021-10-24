@@ -32,7 +32,7 @@ const route = useRoute()
 const router = useRouter()
 
 const formInline = reactive({
-  mobile: '13800000002',
+  mobile: '13600000001',
   password: '123456'
 })
 const state = reactive({

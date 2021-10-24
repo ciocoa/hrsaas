@@ -1,6 +1,9 @@
 <template lang="pug">
-.dashboard-container 首页
-  .dashboard-text name:::::: {{ username }}
+page-tools(show-before)
+  template(#before)
+    span 你好 {{ username }}
+  template(#after)
+    el-button(type="primary") 导入 Excel
 </template>
 
 <script setup>
@@ -10,14 +13,4 @@ const store = useStore()
 const username = computed(() => store.getters.userInfo.username)
 </script>
 
-<style lang="scss" scoped>
-.dashboard {
-  &-container {
-    margin: 30px;
-  }
-  &-text {
-    font-size: 30px;
-    line-height: 46px;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

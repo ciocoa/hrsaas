@@ -1,30 +1,31 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 const app = createApp(App)
-// 导入 路由
 import router from './router'
-// 导入 全局样式
-import '@/styles/index.scss'
-// 导入 vuex
 import store from './store'
 app.use(store)
+
+// 导入 全局样式
+import '@/styles/index.scss'
+
 // 导入 element-plus
 import ElementPlus from 'element-plus'
 import locale from 'element-plus/es/locale/lang/zh-cn'
 import 'element-plus/dist/index.css'
 app.use(ElementPlus, { size: 'mini', locale })
+
 // 导入全局 mixin
 import elementMixin from '@/mixins/elementMixin'
 app.mixin(elementMixin)
 import commonMixin from '@/mixins/commonMixin'
 app.mixin(commonMixin)
-// 导入 axios
-import request from '@/utils/request'
-app.config.globalProperties.$axiosReq = request
-// 导入 svg-icon doc in  https://github.com/anncwb/vite-plugin-svg-icons/blob/main/README.zh_CN.md
+
+// https://github.com/anncwb/vite-plugin-svg-icons/blob/main/README.zh_CN.md
 import 'virtual:svg-icons-register'
-import svgIcon from '@/icons/SvgIcon.vue'
-app.component('svg-icon', svgIcon)
+
+// 注册全局组件
+import components from '@/components'
+app.use(components)
 
 // 导入 moment-mini 并挂载全局过滤器
 import momentMini from 'moment-mini'

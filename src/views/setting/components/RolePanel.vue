@@ -1,5 +1,5 @@
 <template lang="pug">
-el-dialog(:title="showTitle" v-model="showDialog" @close="btnCancel")
+el-dialog(:title="showTitle" v-model="showDialog" :show-close="false")
   el-form(ref="roleFormRef" :model="formData.data" :rules="rules" label-width="120px")
     el-form-item(label="角色名称" prop="name")
       el-input(v-model="formData.data.name" style="width: 80%")
@@ -16,7 +16,6 @@ el-dialog(:title="showTitle" v-model="showDialog" @close="btnCancel")
 import { getRoleList, getRoleDetail, addRole, updateRole } from '@/api/setting'
 import { elMsg } from '@/utils/message'
 import { ref, reactive, computed } from 'vue'
-import { ElMessage } from 'element-plus'
 const roleFormRef = ref(null)
 defineProps({ showDialog: { type: Boolean, default: false } })
 const formData = reactive({ data: { id: '', name: '', description: '' } })

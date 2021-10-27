@@ -1,5 +1,5 @@
 <template lang="pug">
-el-dialog(:title="showTitle" v-model="showDialog" @close="btnCancel")
+el-dialog(:title="showTitle" v-model="showDialog" :show-close="false")
   el-form(ref="deptFormRef" :model="formData.data" :rules="rules" label-width="120px")
     el-form-item(label="部门名称" prop="name")
       el-input(v-model="formData.data.name" style="width: 80%" placeholder="1-50个字符")

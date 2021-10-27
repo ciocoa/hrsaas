@@ -1,6 +1,9 @@
 /** 是否是外部连接 */
 export const isExternal = value => /^(https?:|mailto:|tel:)/.test(value)
 
+/** 是否是 Excel 格式 */
+export const isExcel = value => /\.(xlsx|xls|csv)$/.test(value.name)
+
 /** 已过时间 */
 export const timeAgo = time => {
   const between = Date.now() / 1000 - Number(time)

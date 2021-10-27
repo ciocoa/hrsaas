@@ -29,7 +29,7 @@ el-card(v-loading="tableData.loading" element-loading-text="Loading...")
         el-button(type="text" size="small" @click="deleteEmployee(row.id)") 删除
   el-row(justify="center" align="middle" style="height: 60px")
     el-pagination(@current-change="changePage" :current-page="tableData.pages.page" :page-size="tableData.pages.size" :total="tableData.pages.total" layout="prev, pager, next" background)
-employee-panel(v-model:show-dialog="tableData.showDialog")
+employee-panel(v-model:show-dialog="tableData.showDialog" @addEmployees="refEmployeeList")
 </template>
 
 <script setup>

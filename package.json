@@ -16,14 +16,13 @@
     "echarts": "^5.2.1",
     "element-plus": "^1.1.0-beta.20",
     "js-cookie": "^3.0.1",
-    "mitt": "^3.0.0",
     "nprogress": "^1.0.0-1",
     "path": "^0.12.7",
     "path-to-regexp": "^6.2.0",
-    "tinymce": "^5.10.0",
     "vue": "^3.2.20",
     "vue-router": "^4.0.12",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "xlsx": "^0.17.3"
   },
   "devDependencies": {
     "@fullcalendar/vue3": "^5.10.0",

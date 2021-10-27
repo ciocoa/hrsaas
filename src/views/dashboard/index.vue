@@ -4,6 +4,7 @@ page-tools(show-before)
     span 你好 {{ username }}
   template(#after)
     el-button(type="primary") 导入 Excel
+upload-excel
 </template>
 
 <script setup>

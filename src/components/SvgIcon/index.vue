@@ -25,13 +25,12 @@ const svgClass = computed(() => {
   return 'svg-icon'
 })
 </script>
-
-<style>
+<style scoped>
 .sub-el-icon,
 .nav-icon {
   display: inline-block;
   font-size: 15px;
-  margin-right: 12px;
+  margin-right: 20px;
   position: relative;
 }
 .svg-icon {

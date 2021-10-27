@@ -32,9 +32,9 @@ el-card
 <script setup>
 import RolePanel from './components/RolePanel'
 import { getCompanyInfo, getRoleList, deleteRole } from '@/api/setting'
+import { elMsg, elConfirm } from '@/utils/message'
 import { ref, reactive, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { ElMessage, ElMessageBox } from 'element-plus'
 const store = useStore()
 const rolePanelRef = ref(null)
 const roleList = reactive({ rows: [] })
@@ -53,12 +53,12 @@ const changePage = newPage => {
 const refCompanyInfo = async () => (companyInfo.data = await getCompanyInfo(store.getters.userInfo.companyId))
 const delRole = async id => {
   try {
-    await ElMessageBox.confirm('确认删除该角色吗')
+    await elConfirm('确定删除该角色吗')
     await deleteRole(id)
     refRoleList()
-    ElMessage({ message: '删除角色成功', type: 'success' })
+    elMsg('删除角色成功')
   } catch (error) {
-    console.log(`角色信息操作错误：${error}`)
+    console.log(error.message)
   }
 }
 const editRole = async id => {

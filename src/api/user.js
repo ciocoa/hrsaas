@@ -1,34 +1,15 @@
 import request from '@/utils/request'
-
 /**
  * 请求登录
- * @param {Object} data 登录的请求体
- * @returns
+ * @param {Object} data 登录数据
  */
-export const loginReq = data =>
-  request({
-    url: '/sys/login',
-    method: 'post',
-    data
-  })
-
+export const loginReq = data => request({ url: '/sys/login', method: 'POST', data })
 /**
- * 请求用户信息
- * @returns
+ * 获取用户信息
  */
-export const getUserInfo = () =>
-  request({
-    url: '/sys/profile',
-    method: 'post'
-  })
-
+export const getUserInfo = () => request({ url: '/sys/profile', method: 'POST' })
 /**
- * 请求用户头像
- * @param {String} id 需要获取头像的用户ID
- * @returns
+ * 获取用户头像
+ * @param {Number} id 用户ID
  */
-export const getUserDetailById = id =>
-  request({
-    url: `/sys/user/${id}`
-    // params: { id: id }
-  })
+export const getUserDetailById = id => request({ url: `/sys/user/${id}` })

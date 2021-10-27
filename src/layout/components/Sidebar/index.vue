@@ -13,10 +13,8 @@ import SidebarItem from './SidebarItem'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-
 const store = useStore()
 const route = useRoute()
-
 const routes = computed(() => store.getters.routes)
 const isCollapse = computed(() => store.getters.sidebar.opened)
 const variables = computed(() => {

@@ -18,28 +18,24 @@ el-row(justify="space-between" align="middle" style="height: 40px; width: 100%")
 
 <script setup>
 import { delDepartments } from '@/api/departments'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { elMsg, elConfirm } from '@/utils/message'
 const props = defineProps({
-  treeData: {
-    type: Object,
-    required: true
-  },
-  isRoot: {
-    type: Boolean,
-    default: false
-  }
+  treeData: { type: Object, required: true },
+  isRoot: { type: Boolean, default: false }
 })
 const emit = defineEmits(['addDepts', 'editDepts', 'delDepts'])
-const operateDepts = type => {
+const operateDepts = async type => {
   if (type === 'add') emit('addDepts', props.treeData)
   else if (type === 'edit') emit('editDepts', props.treeData)
   else {
-    ElMessageBox.confirm('确定要删除该部门吗')
-      .then(() => delDepartments(props.treeData.id))
-      .then(() => {
-        emit('delDepts')
-        ElMessage({ message: '删除部门成功', type: 'success' })
-      })
+    try {
+      await elConfirm('确定删除该部门吗')
+      await delDepartments(props.treeData.id)
+      emit('delDepts')
+      elMsg('删除部门成功')
+    } catch (error) {
+      console.log(error.message)
+    }
   }
 }
 </script>

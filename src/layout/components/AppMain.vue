@@ -11,10 +11,8 @@ import setting from '@/settings'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-
 const store = useStore()
 const route = useRoute()
-
 const key = computed(() => route.path)
 const cachedViews = computed(() => store.state.app.cachedViews)
 </script>

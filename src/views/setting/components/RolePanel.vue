@@ -14,6 +14,7 @@ el-dialog(:title="showTitle" v-model="showDialog" @close="btnCancel")
 
 <script setup>
 import { getRoleList, getRoleDetail, addRole, updateRole } from '@/api/setting'
+import { elMsg } from '@/utils/message'
 import { ref, reactive, computed } from 'vue'
 import { ElMessage } from 'element-plus'
 const roleFormRef = ref(null)
@@ -42,10 +43,10 @@ const btnOK = async () => {
     if (formData.data.id) await updateRole(formData.data)
     else await addRole(formData.data)
     emit('refreshRole')
-    ElMessage({ message: '操作成功', type: 'success' })
+    elMsg('操作成功')
     emit('update:showDialog', false)
   } catch (error) {
-    console.log(`操作错误：${error}`)
+    console.log(error.message)
   }
 }
 const btnCancel = () => {

@@ -8,7 +8,7 @@
   .right-menu(v-if="settings.ShowDropDown")
     el-dropdown(trigger="click" size="medium")
       .avatar-wrapper
-        img.user-avatar(v-imagerror="defaultImage" :src="defaultImage")
+        img.user-avatar(:src="staffPhoto")
         span.name {{ username }}
         i.el-icon-caret-bottom
       template(#dropdown)
@@ -24,10 +24,10 @@
 <script setup>
 import settings from '@/settings'
 import Hamburger from './Hamburger'
+import { elMsg } from '@/utils/message'
 import { toRefs, reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
 const store = useStore()
 const router = useRouter()
 // 汉堡按钮开关
@@ -36,13 +36,15 @@ const toggleSideBar = () => store.commit('app/M_toggleSideBar')
 // 用户信息
 const userInfo = reactive({
   username: computed(() => store.getters.userInfo.username),
-  staffPhoto: computed(() => store.getters.userInfo.staffPhoto),
-  defaultImage: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80'
+  staffPhoto: computed(() => {
+    if (store.getters.userInfo.staffPhoto) return store.getters.userInfo.staffPhoto
+    else return 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80'
+  })
 })
-const { username, staffPhoto, defaultImage } = toRefs(userInfo)
+const { username, staffPhoto } = toRefs(userInfo)
 const loginOut = () => {
   store.dispatch('user/logout').then(() => {
-    ElMessage({ message: '注销成功', type: 'success' })
+    elMsg('注销成功')
     router.push('/login')
   })
 }

@@ -4,7 +4,6 @@ import settings from './settings'
 import NProgress from 'nprogress'
 NProgress.configure({ showSpinner: false })
 import 'nprogress/css/nprogress.css'
-import getPageTitle from '@/utils/getPageTitle'
 
 // 不受权限控制的白名单
 const whiteList = ['/login', '/404']
@@ -13,7 +12,7 @@ router.beforeEach(async (to, from, next) => {
   // 开启进度条
   if (settings.isNeedNprogress) NProgress.start()
   // 设置页面标题
-  document.title = getPageTitle(to.meta.title)
+  document.title = to.meta.title ? `${to.meta.title} - ${settings.title}` : `${settings.title}`
 
   /**
    * 正常流程如下：主要分为两点 token 和 role

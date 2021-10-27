@@ -1,5 +1,5 @@
 <template lang="pug">
-el-card.tree-card
+el-card.tree-card(v-loading.lock="loading" element-loading-text="Loading...")
   tree-tools(:tree-data="company" @addDepts="addDepts" :is-root="true")
   el-tree(:data="deptsData.data" :props="{ label: 'name' }" default-expand-all)
     template(#default="{ data }")
@@ -11,7 +11,7 @@ el-card.tree-card
 <script setup>
 import DeptPanel from './components/DeptPanel'
 import TreeTools from './components/TreeTools'
-import { tranListToTree } from '@/utils/toTree'
+import { tranListToTree } from '@/utils/filters'
 import { getDepartments } from '@/api/departments'
 import { ref, reactive, onMounted } from 'vue'
 const company = reactive({ id: '', name: '', manager: '负责人' })
@@ -26,10 +26,18 @@ const editDepts = node => {
   deptsData.node = node
   deptPanelRef.value.refDepartDetail(node.id)
 }
+const loading = ref(false)
 const refDepartments = async () => {
-  const { companyName, depts } = await getDepartments()
-  company.name = companyName
-  deptsData.data = [...tranListToTree(depts, '')]
+  try {
+    loading.value = true
+    const { companyName, depts } = await getDepartments()
+    company.name = companyName
+    deptsData.data = [...tranListToTree(depts, '')]
+  } catch (error) {
+    console.log(error.message)
+  } finally {
+    loading.value = false
+  }
 }
 onMounted(refDepartments())
 </script>

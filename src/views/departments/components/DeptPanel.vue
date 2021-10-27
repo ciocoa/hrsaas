@@ -20,8 +20,8 @@ el-dialog(:title="showTitle" v-model="showDialog" @close="btnCancel")
 <script setup>
 import { getDepartments, addDepartments, updateDepartments, getDepartDetail } from '@/api/departments'
 import { getEmployeeSimple } from '@/api/employees'
+import { elMsg } from '@/utils/message'
 import { ref, reactive, computed } from 'vue'
-import { ElMessage } from 'element-plus'
 const props = defineProps({
   showDialog: { type: Boolean, default: false },
   treeNode: { type: Object, default: null }
@@ -75,10 +75,10 @@ const btnOK = async () => {
     if (formData.data.id) await updateDepartments(formData.data)
     else await addDepartments({ ...formData.data, pid: props.treeNode.id })
     emit('addDepts')
-    ElMessage({ message: '操作成功', type: 'success' })
+    elMsg('操作成功')
     emit('update:showDialog', false)
   } catch (error) {
-    console.log(`操作错误：${error}`)
+    console.log(error.message)
   }
 }
 const btnCancel = () => {

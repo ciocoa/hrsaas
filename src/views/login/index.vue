@@ -1,20 +1,20 @@
 <template lang="pug">
 .login-container.columnCC
-  el-form.login-form(ref="refloginForm" size="medium" :model="formInline" :rules="formRulesMixin")
+  el-form.login-form(ref="loginFormRef" size="medium" :model="loginData" :rules="formRules")
     .title-container
       h3.title
         img(src="@/assets/common/login-logo.png")
-    el-form-item(prop="mobile" :rules="formRulesMixin.mobileValid")
+    el-form-item(prop="mobile" :rules="formRules.checkPhone")
       .rowSC
         span.svg-container
           svg-icon(icon-class="user")
-        el-input(v-model="formInline.mobile" placeholder="手机")
+        el-input(v-model="loginData.mobile" placeholder="手机")
         .show-pwd
-    el-form-item(prop="password" :rules="formRulesMixin.isNotNull")
+    el-form-item(prop="password" :rules="formRules.checkPwd")
       .rowSC
         span.svg-container
           svg-icon(icon-class="password")
-        el-input(ref="refPassword" name="password" :type="passwordType" :key="passwordType" v-model="formInline.password" @keyup.enter="handleLogin" placeholder="密码")
+        el-input(ref="passwordRef" name="password" :type="passwordType" :key="passwordType" v-model="loginData.password" @keyup.enter="handleLogin" placeholder="密码")
         span.show-pwd(@click="showPwd")
           svg-icon(:icon-class="passwordType === 'password' ? 'eye' : 'eye-open'")
     .tip-message {{ tipMessage }}
@@ -22,16 +22,14 @@
 </template>
 
 <script setup>
+import { elMsg } from '@/utils/message'
 import { ref, reactive, watch, nextTick } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-
 const store = useStore()
 const route = useRoute()
 const router = useRouter()
-
-const formInline = reactive({
+const loginData = reactive({
   mobile: '13600000001',
   password: '123456'
 })
@@ -39,10 +37,7 @@ const state = reactive({
   otherQuery: {},
   redirect: undefined
 })
-
-/**
- * 监听路由变化
- */
+/** 监听路由变化 */
 const getOtherQuery = query =>
   Object.keys(query).reduce((acc, cur) => {
     if (cur !== 'redirect') acc[cur] = query[cur]
@@ -59,41 +54,30 @@ watch(
   },
   { immediate: true }
 )
-
-const refloginForm = ref(null)
+const loginFormRef = ref(null)
+const passwordRef = ref(null)
 const loading = ref(false)
 const tipMessage = ref('')
-/**
- * 请求登录
- */
-const handleLogin = () => {
-  refloginForm.value.validate(async vaild => {
-    if (vaild) {
-      try {
-        loading.value = true
-        await store.dispatch('user/login', formInline)
-        ElMessage({ message: '登录成功', type: 'success' })
-        router.push({ path: state.redirect || '/', query: state.otherQuery })
-      } catch (error) {
-        tipMessage.value = error
-      } finally {
-        loading.value = false
-      }
-    } else {
-      return false
-    }
-  })
+/** 请求登录 */
+const handleLogin = async () => {
+  try {
+    await loginFormRef.value.validate()
+    loading.value = true
+    await store.dispatch('user/login', loginData)
+    elMsg('登录成功')
+    router.push({ path: state.redirect || '/', query: state.otherQuery })
+  } catch (error) {
+    tipMessage.value = error.message
+  } finally {
+    loading.value = false
+  }
 }
-
-const refPassword = ref(null)
 const passwordType = ref('password')
-/**
- * 密码的显示和隐藏
- */
+/** 密码的显示和隐藏 */
 const showPwd = () => {
   if (passwordType.value === 'password') passwordType.value = ''
   else passwordType.value = 'password'
-  nextTick(() => refPassword.value.focus())
+  nextTick(() => passwordRef.value.focus())
 }
 </script>
 

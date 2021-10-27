@@ -10,10 +10,7 @@
 <script setup>
 import logo from '@/assets/common/logo.png'
 defineProps({
-  collapse: {
-    type: Boolean,
-    required: true
-  }
+  collapse: { type: Boolean, required: true }
 })
 </script>
 

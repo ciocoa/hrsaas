@@ -236,6 +236,17 @@ export const formatDate = (date, fmt = 'yyyy-MM-dd') => {
 // 补零函数
 const padLeftZero = str => ('00' + str).substr(str.length)
 
+/** Excel 日期格式化 */
+export const formatExcelDate = (num, fmt) => {
+  const time = new Date((num - 1) * 24 * 3600000 + 1)
+  time.setYear(time.getFullYear() - 70)
+  const year = time.getFullYear() + ''
+  const month = time.getMonth() + 1 + ''
+  const date = time.getDate() - 1 + ''
+  if (fmt && fmt.length === 1) return year + fmt + month + fmt + date
+  return year + (month < 10 ? '0' + month : month) + (date < 10 ? '0' + date : date)
+}
+
 /** 获取 blob 流 */
 export const getBlob = response => {
   const blob = new Blob([response.data], {

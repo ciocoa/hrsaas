@@ -19,3 +19,8 @@ export const addEmployee = data => request({ url: 'sys/user', method: 'POST', da
  * @param {Number} id 员工ID
  */
 export const delEmployee = id => request({ url: `/sys/user/${id}`, method: 'DELETE' })
+/**
+ * 导入员工
+ * @param {Object} data 员工数据
+ */
+export const importEmployee = data => request({ url: '/sys/user/batch', method: 'POST', data })

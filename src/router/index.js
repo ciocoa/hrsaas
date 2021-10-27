@@ -10,6 +10,7 @@ import permission from './modules/permission'
 import salarys from './modules/salarys'
 import setting from './modules/setting'
 import social from './modules/social'
+import upload from './modules/upload'
 /**
  * 静态路由
  */
@@ -24,8 +25,9 @@ export const asyncRoutes = [
   employees,
   permission,
   salarys,
-  social,
   setting,
+  social,
+  upload,
   // 404 page must be placed at the end !!!
   // using pathMatch install of "*" in vue-router 4.0
   { path: '/:pathMatch(.*)', redirect: '/404', hidden: true }

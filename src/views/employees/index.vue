@@ -3,7 +3,7 @@ page-tools(:show-before="true")
   template(#before)
     span 共{{ tableData.pages.total }}条记录
   template(#after)
-    el-button(size="small" type="warning") 导入
+    el-button(size="small" type="warning" @click="router.push('/upload')") 导入
     el-button(size="small" type="danger") 导出
     el-button(size="small" type="primary" icon="el-icon-plus" @click="tableData.showDialog = true") 新增员工
 el-card(v-loading="tableData.loading" element-loading-text="Loading...")
@@ -39,7 +39,8 @@ import { elMsg, elConfirm } from '@/utils/message'
 import EmployeeEnum from '@/api/constant/employees'
 import { delEmployee, getEmployeeList } from '@/api/employees'
 import { reactive, onMounted } from 'vue'
-
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const tableData = reactive({
   loading: false,
   showDialog: false,
